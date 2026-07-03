@@ -1,0 +1,22 @@
+{
+  "name": "book_app_ts",
+  "version": "1.0.0",
+  "description": "A simple Node.js book API with TypeScript",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "build": "tsc",
+    "dev": "ts-node src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.0",
+    "body-parser": "^2.3.0",
+    "express": "^5.2.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

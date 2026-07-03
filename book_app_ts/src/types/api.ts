@@ -4,14 +4,14 @@
  */
 
 export interface paths {
-    "/users": {
+    "/books": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get a list of users */
+        /** Get all books */
         get: {
             parameters: {
                 query?: never;
@@ -21,14 +21,91 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description A successful response */
+                /** @description A list of books. */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["User"][];
+                        "application/json": components["schemas"]["Book"][];
                     };
+                };
+            };
+        };
+        put?: never;
+        /** Create a new book */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["BookInput"];
+                };
+            };
+            responses: {
+                /** @description The created book. */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Book"];
+                    };
+                };
+                /** @description Invalid input. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/books/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a book by ID */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The ID of the book to retrieve. */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description The requested book. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Book"];
+                    };
+                };
+                /** @description Book not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
                 };
             };
         };
@@ -44,10 +121,34 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        User: {
-            id: number;
-            name: string;
-            email?: string;
+        Book: {
+            /**
+             * @description Unique identifier for the book.
+             * @example a1b2c3d
+             */
+            id: string;
+            /**
+             * @description The title of the book.
+             * @example The Great Gatsby
+             */
+            title: string;
+            /**
+             * @description The author of the book.
+             * @example F. Scott Fitzgerald
+             */
+            author: string;
+        };
+        BookInput: {
+            /**
+             * @description The title of the book.
+             * @example To Kill a Mockingbird
+             */
+            title: string;
+            /**
+             * @description The author of the book.
+             * @example Harper Lee
+             */
+            author: string;
         };
     };
     responses: never;

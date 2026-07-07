@@ -1,0 +1,19 @@
+https://anotepad.com/notes/9rhmcqja
+
+Act as a senior backend architect and an empathetic engineering mentor. 
+
+I need you to explain to junior/beginner backend engineers how to build and run their very first local Model Context Protocol (MCP) server from scratch using TypeScript and Node.js. They already understand basic Node.js, JavaScript, and async/await, but MCP, Claude Desktop integration, and the JSON-RPC standard are brand new to them.
+
+Please structure your explanation using the following guidelines:
+
+1. High-Level Concept: Explain what an MCP server is using a simple "bridge" analogy (connecting LLMs to local data/tools). Avoid heavy academic jargon. Explain why stdin/stdout is used instead of traditional HTTP express routes for local setups.
+2. Step-by-Step Implementation: Walk through the setup chronologically with clear, production-ready code snippets:
+   - Initializing the directory, `package.json`, and installing `@modelcontextprotocol/sdk`.
+   - Creating a strict `tsconfig.json` optimized for Node.js.
+   - Writing `src/index.ts` to initialize the `McpServer`, define a single simple tool (e.g., a local file reader or a dynamic calculator), and connect using the `StdioServerTransport`.
+3. Configuration & Testing: Show exactly how to modify the Claude Desktop configuration file (`claude_desktop_config.json`) on Mac and Windows to detect this local server using `node` and `npx`.
+4. Verification: Give them a specific prompt they can type into Claude Desktop to test if their new tool works.
+
+Keep the tone encouraging, technical yet accessible, and prioritize scannability with short paragraphs and bullet points.
+
+

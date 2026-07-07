@@ -1,0 +1,19 @@
+{
+  "name": "grpc-ts-project",
+  "version": "1.0.0",
+  "main": "dist/server/server.js",
+  "scripts": {
+    "proto:generate": "proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=src/generated/ protos/*.proto",
+    "build": "npm run proto:generate && tsc",
+    "start:server": "node dist/server/server.js",
+    "start:client": "node dist/client/client.js"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.10.0",
+    "@grpc/proto-loader": "^0.7.10"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.11.0"
+  }
+}

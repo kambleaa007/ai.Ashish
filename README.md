@@ -85,3 +85,8 @@ Tasks
 Generate production-quality TypeScript.
 
 
+npx openapi-typescript openapi/openapi.yaml --output src/types/api.ts
+   npm install swagger-ui-express yamljs
+
+
+

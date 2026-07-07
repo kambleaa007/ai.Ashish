@@ -16,7 +16,7 @@ npm install swagger-ui-express yamljs
 
 
 Inconsistent coding Standards
- 
+
 Incorrect Type Inference
 
 

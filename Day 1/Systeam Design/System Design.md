@@ -1,17 +1,17 @@
-Statelessness
-Caching - speed in exchange of freshness (TTLS, Cache-aside patterns, write through vs write back strategies)
-Cap theorem 
-Consistent 
-Every read gets most recent write 
-Availability 
-System always respond even if not latest data 
-Partition tolerance 
-Message queues kafka, sqs
-Databases 
-Sql acid 
-Nosql 
-API design 
-Rest and GraphQL
+    Statelessness
+    Caching - speed in exchange of freshness (TTLS, Cache-aside patterns, write through vs write back strategies)
+    Cap theorem 
+    Consistent 
+    Every read gets most recent write 
+    Availability 
+    System always respond even if not latest data 
+    Partition tolerance 
+    Message queues kafka, sqs
+    Databases 
+    Sql acid 
+    Nosql 
+    API design 
+    Rest and GraphQL
 
 
 

@@ -57,11 +57,38 @@ default running
 postgres://postgres:postgres@localhost:51214/template1?sslmode=disable
 
 
-![NOT WORKING](image.png)
+![NOT WORKING](img/image.png)
 
 > npm init -y 
 > npm i express jsonwebtoken argon2 zod dotenv @prisma/client
 > npm i -D @types/express @types/jsonwebtoken @types/node prisma tsx typescript
+
+# ARE YOU GET OR POST???
+
+![POST Fine](img/image-1.png)
+
+![8 char pwd](img/image-2.png)
+
+> npx prisma studio 
+> npx prisma studio --port 5555
+
+    PS D:\git\ai.Ashish\Day 7\security\project> npx prisma studio --port 5555
+    npm notice run secure-notes-api@1.0.0 npx
+    npm notice run prisma studio --port 5555
+    Environment variables loaded from .env
+    Prisma schema loaded from prisma\schema.prisma
+    Prisma Studio is up on http://localhost:5555
+
+![alt text](img/image-3.png)
+
+
+
+
+
+
+
+
+
 
 
 --------------------------------------------

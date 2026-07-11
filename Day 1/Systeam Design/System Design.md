@@ -46,6 +46,10 @@ This guide breaks down each core concept into its fundamental components: **What
 ### 🧠 Mental Model: The Fast-Food Counter
 > Think of a busy fast-food restaurant. You walk up to any open cashier, state your entire order, pay, and get your food. The cashier does not need to remember who you are or what you ordered yesterday to fulfill your current transaction.
 
+![alt text](./img/image-2.png)
+![alt text](./img/image-1.png)
+![alt text](./img/image.png)
+![alt text](./img/image-3.png)
 ---
 
 ## ⚡ 2. Caching Strategies
@@ -98,6 +102,12 @@ Client ──► Write Data                Client ──► Write Data
 | **Example** | Saving a user profile update where immediate correctness is expected. | Tracking high-frequency actions like video view counts, gameplay high scores, or IoT sensor streams. |
 | **🧠 Model** | **The Copy Machine**: Writing a contract directly onto carbon copy paper. Both sheets are written simultaneously, ensuring identical records. | **The Scrap Notepad**: Scribbling down phone numbers on a scratchpad during a chaotic day, intending to organize and log them into an official address book at night. |
 
+
+![alt text](./img/image-4.png)
+![alt text](./img/image-5.png)
+![alt text](./img/image-6.png)
+![alt text](./img/image-7.png)
+![alt text](./img/image-8.png)
 ---
 
 ## 📐 3. The CAP Theorem
@@ -138,6 +148,14 @@ Your real choice is binary: **Choose CP (Consistency) or AP (Availability) durin
 *   **Disadvantages**: Forces a tough trade-off between Consistency and Availability when a split happens.
 *   **🧠 Mental Model: Mail Carrier Strike**: Two business offices must operate even if the postal service goes on strike, cutting off communication between them.
 
+
+![alt text](./img/image-9.png)
+![alt text](./img/image-10.png)
+![alt text](./img/image-11.png)
+![alt text](./img/image-12.png)
+![alt text](./img/image-13.png)
+![alt text](./img/image-14.png)
+Rather sayin I'll go with eventual consistency SAY -> Which operations Needs Which Gurantees And Why  
 ---
 
 ## 📨 4. Distributed Message Queues
@@ -163,6 +181,18 @@ Message queues decouple system components by acting as asynchronous boundaries, 
 *   **Kafka is a Newspaper**: The printing press publishes stories to a central stand. Anyone can buy a paper, read it at their own pace, or re-read yesterday’s news.
 *   **SQS is a Postcard**: A card delivered straight to a house's mailbox. A single resident opens it, acts on it, and throws it away. It cannot be read again.
 
+
+![alt text](./img/image-15.png)
+![alt text](./img/image-16.png) So Every System Needs UP
+![alt text](./img/image-17.png) MSG Q breaks That UP Dependency 
+Instead callin Service Directly -> call Event 
+![alt text](./img/image-18.png)
+So now down stream services can Pick them Independently ![alt text](./img/image-19.png) and process independently 
+![alt text](./img/image-20.png)
+
+
+
+
 ---
 
 ## 💾 5. Database Paradigms
@@ -183,6 +213,15 @@ Message queues decouple system components by acting as asynchronous boundaries, 
 *   **Example**: Managing real-time user profiles or product catalogs on MongoDB or Amazon DynamoDB.
 *   **🧠 Mental Model: Manila Folders**: Instead of an organized spreadsheet, you toss documents into labeled manila folders. Each document can look different, and you can add new folders to the filing cabinet whenever you run out of space.
 
+
+![alt text](./img/image-21.png) No -> What Gurantees Your data Layer makes
+SEQUEL DB -> ![alt text](./img/image-22.png)
+A ![alt text](./img/image-23.png)
+C ![alt text](./img/image-24.png)
+I ![alt text](./img/image-25.png)
+D ![alt text](./img/image-26.png)
+![alt text](./img/image-27.png)
+![alt text](./img/image-28.png) OR ![alt text](./img/image-29.png)
 ---
 
 ## 🔌 6. API Architectural Designs
@@ -212,6 +251,13 @@ Client ◄── { "name": "Eve" } ─ Exact data requested
 *   **Disadvantages**: Moves query parsing complexity to the backend server, makes traditional HTTP edge caching difficult, and risks server overload from malicious, deeply nested queries.
 *   **Example**: Content-heavy interfaces like the Facebook or Shopify storefront APIs.
 *   **🧠 Mental Model: The Buffet Line**: You walk up with an empty plate and take exactly three strawberries and two slices of cheese—no more, no less.
+
+![alt text](./img/image-30.png) OR ![alt text](./img/image-31.png)
+![alt text](./img/image-32.png)
+---
+
+
+
 
 
 

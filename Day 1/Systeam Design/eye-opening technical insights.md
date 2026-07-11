@@ -129,6 +129,7 @@ The architectural blueprint of your API shapes how your data layer is consumed:
 https://www.youtube.com/watch?v=3Pusamd6BO4
 
 Here are the precise, eye-opening technical insights Maddy shares for each of the 6 concepts, digging into the exact mechanics of why these architectural rules exist.
+
 Concept 1: StatelessnessThe Core Insight: Horizontal scaling is an illusion unless your servers are completely stripped of local memory (0:58).The "Aha!" Mechanism: If a server retains a user's login state or an active shopping cart locally, that user is locked into a "sticky session" (1:22). The load balancer’s hands are tied—it can no longer distribute traffic freely based on server health (1:34).The Resolution: Offloading state to a shared store like Redis means servers become identical and interchangeable (1:46). If a server crashes, the session isn't lost; a sister node handles the next request seamlessly (1:39).
 
 Concept 2: CachingThe Core Insight: Every single cache in existence makes the exact same philosophical trade-off: speed in exchange for freshness (3:41).The "Aha!" Mechanism: Instead of memorizing tools, a senior engineer looks at the architecture and asks: "Where is the bottleneck, and how stale can we afford this data to be?" (3:53)The Landscape:CDNs handle static assets geographically close to users because those change rarely (3:59).Application caches (Redis) sit directly in front of your database to handle intense, read-heavy queries with millisecond latency (4:05).

@@ -4,6 +4,9 @@ Here is the complete reconstruction of the 30 System Design Tradeoffs table from
 
 The 30 key system design tradeoffs, as detailed in the source guide, are categorized into six areas for managing architectural decisions.
 
+[🎵 Listen to 30 Essential System Design Tradeoffs Here](./audio/30_Essential_System_Design_Interview_Tradeoffs.m4a)
+[🎵 Listen to सिस्टीम डिझाईनमधील महत्त्वाच्या तडजोडी](./audio/सिस्टीम_डिझाईनमधील_महत्त्वाच्या_तडजोडी.m4a)
+
 ---
 
 ## 1. Consistency and Data Integrity

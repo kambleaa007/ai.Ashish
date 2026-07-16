@@ -30,3 +30,292 @@ Build Issues Troubleshooting:
 Investigate and resolve the MCP server connection and build issues experienced by Nishi, including module not found and config problems, and report findings to the group. (nishi)
 Project Code Sharing and Testing: 
 Share the MCP project code files (data.ts, index.ts, tool.ts) with the team and request members to try running the project on their machines, then provide feedback on functionality by the next meeting. (nishi, the team)
+
+-------------------------
+SUMMARY
+
+Meeting Summary
+1. MCP (Model Context Protocol) Setup Troubleshooting
+
+The session began with a review of a previous issue where an MCP server was not connecting correctly because of a configuration-path problem while Claude Desktop was running. The presenter explained that after stopping Claude Desktop, updating the configuration, and restarting the service, the MCP server connected successfully. A demonstration showed Claude interacting with a ticketing system using natural-language queries (for example, retrieving tickets by priority and listing available tickets). Participants were asked to test the setup on their own machines.
+
+SHAREDSCREEN:1] \[SHAREDSCREEN:2] \[SHAREDSCREEN:3] \[SHAREDSCREEN:4] \[SHAREDSCREEN:5] ## 2. Advanced API Security – Core Topics The main training topic was **Advanced API Security and Architecture**, aimed at experienced developers rather than beginners. The discussion covered: * JWT (JSON Web Tokens) * RBAC (Role-Based Access Control) * ABAC (Attribute-Based Access Control) * OAuth 2.0 and OpenID Connect (OIDC) * Secure API Design * AI-assisted Security Audits * TypeScript-based security practices * Modern production security patterns ## 3. JWT Security Best Practices Key JWT recommendations included: * Prefer modern cryptography libraries that support modern runtimes and non-blocking operations. * Enforce a specific signing algorithm and never trust the algorithm header sent by a client. * Use short-lived access tokens combined with secure refresh tokens. * Verify cryptographic signatures using trusted public keys before accepting tokens. ## 4. Enterprise-Grade Authorisation The session explained why simple role arrays become difficult to maintain in large systems. ### RBAC and ABAC * RBAC supports role inheritance (for example, Admin inheriting Manager permissions). * ABAC makes decisions based on contextual attributes rather than only roles. ### TypeScript Decorators Decorators were presented as a way to: * Separate authorisation logic from business logic. * Improve maintainability. * Make permissions easier to audit. ### Centralised Policy Enforcement The presenter discussed the use of policy engines such as **Casbin** to keep authorisation logic outside application code and allow policy changes without code modifications. \[SHAREDSCREEN:6] ## 5. OAuth 2.0 and OpenID Connect Important security concepts were explained using real-world analogies: * **PKCE (Proof Key for Code Exchange)** for public applications. * Principle of least privilege when requesting OIDC scopes. * JWT validation using JWKS (JSON Web Key Sets). * Back-channel logout for immediate session invalidation across services. A corporate-building analogy was used to explain authentication, permission management, token verification, and logout flows. ## 6. OWASP-Inspired API Security Practices Several common API vulnerabilities and mitigations were discussed: ### BOLA (Broken Object Level Authorisation) * Always validate ownership at the database-query level. * Do not rely solely on client-provided identifiers. ### Mass Assignment * Use strict DTOs rather than directly binding request payloads to database models. * Filter out unexpected fields submitted by users. ### Rate Limiting * Restrict the number of requests by user, IP, or endpoint. * Prevent brute-force and denial-of-service scenarios. ### Pagination and Filtering * Impose limits on query results. * Prevent excessive resource consumption and potential injection-based abuse. ## 7. TypeScript API Security Implementation The presenter covered: * Runtime validation using libraries such as **Zod**. * Security headers (CSP, HSTS, X-Frame-Options). * Safe error handling that avoids exposing internal implementation details. * Schema validation to block malformed or malicious input before it reaches application logic. ## 8. AI-Assisted Security Audits A major portion of the session focused on AI-enabled security practices: ### AI Security Review Capabilities * Context-aware analysis beyond simple pattern matching. * Automated threat modelling. * Dependency vulnerability analysis. * Suggested code fixes and remediation recommendations. ### TypeScript Ecosystem Security Tooling Examples included: * Package-scanning tools for detecting malicious or unsafe dependencies. * GitHub Advanced Security and CodeQL. * Lint security plugins. * Continuous AI-powered monitoring of production systems and traffic patterns. ## 9. Security Philosophy and Final Recommendations The presenter concluded with several overarching principles: ### Zero Trust Architecture * Assume all incoming data is potentially malicious until validated. * Re-verify requests at every stage. ### TypeScript as a Security Tool * Use strict typing to prevent unintended inputs and reduce attack surfaces. ### Shift-Left Security * Detect vulnerabilities during development and testing rather than after production deployment. ### AI Usage Guidance The presenter emphasised that AI can automate a large portion of security analysis and detection, but final engineering decisions should still be made by humans rather than relying blindly on AI-generated output. # Key Takeaways 1. Implement strong JWT validation and token lifecycle management. 2. Move beyond basic RBAC using hierarchical roles, ABAC, and centralised policy engines. 3. Follow secure API design principles to mitigate OWASP-class vulnerabilities. 4. Use validation, security headers, and safe error handling in TypeScript applications. 5. Integrate AI-powered security auditing into the development lifecycle. 6. Adopt Zero-Trust and Shift-Left security practices.
+
+
+------------------------------
+🏰 The Security Castle Mental Model
+                  AI Security Layer
+                         ↑
+                  Continuous Monitoring
+                         ↑
+                 Secure API Design
+                         ↑
+          Authentication + Authorization
+                         ↑
+                Token & Identity Layer
+                         ↑
+                   User Requests
+
+
+Every incoming request must pass through multiple security gates.
+
+1. Identity Gate
+"Who are you?"
+
+This is where:
+
+JWT
+OAuth2
+OIDC
+PKCE
+JWKS
+
+live.
+
+Mental model:
+
+User → Login → Identity Provider
+              ↓
+         JWT Token
+
+
+Like entering a corporate building and receiving a badge.
+
+Remember
+OAuth2 = Getting permission
+OIDC = Knowing who the user is
+JWT = Identity badge
+JWKS = Badge verification system
+PKCE = OTP protecting public applications
+2. Authorization Gate
+"What are you allowed to do?"
+
+After identity is established:
+
+Authenticated User
+        ↓
+Role Check
+        ↓
+Permission Check
+        ↓
+Resource Access
+
+
+Covered topics:
+
+RBAC
+ABAC
+Casbin
+TS Decorators
+Simple Memory Trick
+
+RBAC:
+
+Admin
+ └── Manager
+      └── User
+
+
+ABAC:
+
+User + Context + Resource
+            ↓
+      Allow / Deny
+
+
+Example:
+
+Manager
++
+Own Department
++
+Business Hours
+=
+Allow
+
+
+Not just role.
+
+3. Resource Protection Gate
+"Can you access THIS object?"
+
+This is OWASP territory.
+
+BOLA
+/orders/123
+
+
+User changes:
+
+/orders/124
+
+
+System must verify ownership.
+
+Mental model:
+
+Never trust the ID in the URL.
+
+Always check:
+
+Resource ID
++
+User ID
+
+
+inside database queries.
+
+4. Input Filtering Gate
+"Can the data be trusted?"
+
+Tools:
+
+DTOs
+Zod
+TypeScript types
+
+Mental model:
+
+Internet
+   ↓
+Filter
+   ↓
+Application
+
+
+Everything entering the application is suspicious.
+
+Think:
+
+Airport security scanner.
+
+5. Abuse Protection Gate
+"Is someone attacking us?"
+
+Topics:
+
+Rate Limiting
+Pagination
+Filtering
+
+Mental model:
+
+Normal User
+      ↓ 20 requests
+      ✅
+
+Attacker
+      ↓ 10,000 requests
+      ❌
+
+
+System should slow or block attackers.
+
+6. Secure Infrastructure Layer
+"Even if something fails, don't reveal secrets."
+
+Topics:
+
+CSP
+HSTS
+X-Frame Options
+Safe Error Handling
+
+Mental model:
+
+Application Error
+        ↓
+
+Good:
+"Something went wrong"
+
+Bad:
+NullPointerException at
+DBServer-01
+Password = xyz
+
+
+Never leak internals.
+
+7. AI Security Engineer Layer
+"Can AI help defend the castle?"
+
+Topics:
+
+AI Security Audits
+Threat Modelling
+Dependency Analysis
+Code Remediation
+GitHub Advanced Security
+CodeQL
+
+Mental model:
+
+Human Security Engineer
+           +
+      AI Assistant
+           =
+ Faster Detection
+ Better Coverage
+
+
+AI acts like:
+
+Inspector
+Reviewer
+Security Camera
+Code Auditor
+
+But not final decision maker.
+
+8. Zero Trust Philosophy (Master Concept)
+
+If you remember only ONE thing from the meeting, remember this.
+
+Trust Nothing
+Verify Everything
+
+
+The presenter repeatedly emphasised Zero Trust as the overarching philosophy.
+
+Mental model:
+
+Request Arrives
+      ↓
+Validate
+
+Token
+↓
+Validate
+
+Input
+↓
+Validate
+
+Role
+↓
+Validate
+
+Resource
+↓
+Validate
+
+
+Never assume anything is safe.
+
+Interview Mental Model (30-second answer)
+
+If asked:
+
+"How do you design a secure enterprise API?"
+
+Answer:
+
+1. Authenticate users (OAuth2/OIDC/JWT)
+2. Authorize access (RBAC/ABAC)
+3. Protect resources (BOLA prevention)
+4. Validate all inputs (DTO/Zod)
+5. Apply rate limiting & pagination
+6. Use security headers & safe errors
+7. Automate security audits with AI tools
+8. Follow Zero Trust principles

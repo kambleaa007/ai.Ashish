@@ -1,5 +1,3 @@
-
-
 Day 1
 
 Adv TS 

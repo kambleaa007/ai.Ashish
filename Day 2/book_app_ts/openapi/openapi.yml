@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  title: Book API
+  version: 1.0.0
+  description: A simple API for managing books.
+servers:
+  - url: http://localhost:8090
+    description: Local development server
+tags:
+  - name: Books
+    description: Operations related to books
+paths:
+  /books:
+    get:
+      summary: Get all books
+      tags: [Books]
+      responses:
+        '200':
+          description: A list of books.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Create a new book
+      tags: [Books]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '201':
+          description: The created book.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: Invalid input.
+  /books/{id}:
+    get:
+      summary: Get a book by ID
+      tags: [Books]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the book to retrieve.
+      responses:
+        '200':
+          description: The requested book.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Book not found.
+components:
+  schemas:
+    Book:
+      type: object
+      required:
+        - id
+        - title
+        - author
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the book.
+          example: 'a1b2c3d'
+        title:
+          type: string
+          description: The title of the book.
+          example: 'The Great Gatsby'
+        author:
+          type: string
+          description: The author of the book.
+          example: 'F. Scott Fitzgerald'
+    BookInput:
+      type: object
+      required:
+        - title
+        - author
+      properties:
+        title:
+          type: string
+          description: The title of the book.
+          example: 'To Kill a Mockingbird'
+        author:
+          type: string
+          description: The author of the book.
+          example: 'Harper Lee'

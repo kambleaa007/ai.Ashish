@@ -1,0 +1,942 @@
+
+---------------------------------------------
+SUMMARY
+
+Meeting Summary
+Topic
+
+Model Context Protocol (MCP) – Practical Implementation and Integration with Claude Desktop
+
+Presenter: nishi
+
+Key Concepts Covered
+1. MCP Fundamentals
+
+The session began with a recap of MCP (Model Context Protocol), described as an open standard created by Anthropic that acts like a "USB port for AI", providing a standard way for AI models to communicate with external tools, applications, and data sources. MCP enables AI systems to read data, execute actions, and interact with different software ecosystems without requiring custom integrations for every tool.
+
+2. MCP Architecture
+
+The presenter explained the MCP client-server architecture:
+
+AI applications (Claude Desktop, ChatGPT, VS Code, custom chatbots) act as MCP clients.
+MCP servers expose tools and resources.
+Communication occurs via JSON-RPC.
+MCP servers can provide:
+Tools (actions AI can execute)
+Resources (data AI can read)
+Prompts (reusable workflows/templates)
+Demo 1: MCP DB Inspector Project
+
+The first demonstration showcased a beginner-friendly MCP server called MCP DB Inspector. The project exposes an in-memory SQLite database to AI assistants.
+
+Architecture
+
+The solution consists of:
+
+AI Client (Claude Desktop/ChatGPT/VS Code)
+MCP Server (server.ts)
+JSON-RPC communication
+SQLite in-memory database
+Available MCP Tools
+
+The server exposes only two safe operations:
+
+List database tables
+Execute SELECT queries
+
+The AI is intentionally prevented from:
+
+DELETE
+UPDATE
+INSERT
+DROP
+
+operations for safety reasons.
+
+Technical Implementation
+
+The presenter walked through:
+
+server.ts
+package.json
+tsconfig.json
+SQLite initialization
+Tool registration
+MCP server startup
+STDIO transport usage
+Important Design Notes
+Uses in-memory SQLite storage.
+All data disappears after server restart.
+Intended for learning and experimentation.
+Query validation only checks if statements start with SELECT; it is not a full SQL parser.
+Claude Desktop Integration Demo
+
+The presenter demonstrated integrating the MCP server with Claude Desktop.
+
+Key activities included:
+
+Opening Claude Desktop developer settings.
+Reviewing MCP server configuration.
+Examining logs.
+Verifying server connection status.
+Testing MCP tools through natural-language requests.
+Example Queries Demonstrated
+
+Natural-language requests successfully translated into database queries, such as:
+
+List all database tables.
+Show all records.
+Show only error logs.
+Count records.
+Explain database contents.
+Important Lesson
+
+Users do not need to write SQL directly. The AI interprets plain-English requests and generates the appropriate queries using MCP tools in the background.
+
+Troubleshooting Session
+
+A significant portion of the meeting involved diagnosing MCP connection and build issues. Topics discussed included:
+
+TypeScript build failures.
+npm build errors.
+Package configuration issues.
+PowerShell command problems.
+rm -rf incompatibility on Windows.
+Module resolution and missing module errors.
+Claude Desktop MCP connection problems.
+Configuring rootDir and outDir.
+Verifying TypeScript version (5.9.3).
+Participant Contribution
+
+Abhijeet Mahadik suggested reviewing package scripts and removing unsupported rm -rf commands that may be causing build failures on Windows.
+
+Demo 2: Support Ticket MCP Server
+
+The presenter then introduced a more advanced business-oriented MCP project: a Support Ticket Management MCP Server.
+
+Business Scenario
+
+The project models a customer support system:
+
+Customers create support tickets.
+Backend stores ticket information.
+MCP exposes ticket functionality to AI.
+Users interact using natural language instead of directly accessing the application.
+Project Structure
+
+Key files:
+
+index.ts – server startup
+tools.ts – MCP tool registration
+data.ts – mock backend containing customers and tickets
+package.json
+tsconfig.json
+walkthrough documentation
+Seven MCP Tools
+
+The project registers seven MCP tools, including capabilities such as:
+
+List tickets
+Get ticket
+Search tickets
+List customers
+Get customer
+Create ticket
+Additional ticket management operations
+Data Layer
+
+Instead of a real database, the demo uses:
+
+Customer arrays
+Ticket arrays
+
+to simulate backend services. The presenter explained how this could later be replaced with MySQL, PostgreSQL, MongoDB, REST APIs, etc.
+
+Tool Registration
+
+The presenter emphasized that tools.ts is the "heart" of the project because it:
+
+Registers MCP tools.
+Defines input schemas.
+Specifies business logic.
+Connects user requests to backend functions.
+Connection Issues Encountered
+
+While attempting to connect the Support Ticket MCP Server to Claude Desktop, the presenter experienced connection problems.
+
+Observed issues included:
+
+Server reported "ready".
+Claude Desktop did not show the project as connected.
+Config file updates were attempted.
+Server path and arguments were modified.
+Multiple restarts were performed.
+Final connection was still unsuccessful during the live demo.
+
+The presenter stated the issue would be investigated further and discussed in the following session.
+
+Key Takeaways
+MCP provides a standard interface between AI models and external systems.
+MCP follows a client-server architecture using JSON-RPC.
+MCP tools can safely expose business operations to AI.
+Claude Desktop can interact with local MCP servers through configuration files.
+Natural-language prompts can replace direct SQL queries and application navigation.
+Tool registration and schema definitions are critical components of MCP development.
+The session progressed from a simple database inspector example to a ticket-management business application.
+Action Items
+Participants were asked to try the shared MCP projects locally.
+Review the shared code files (data.ts, index.ts, tools.ts).
+Test MCP integration with Claude Desktop.
+Investigate the Support Ticket MCP Server connection issue before the next training session.
+SHAREDSCREEN:3]\[SHAREDSCREEN:8]\[SHAREDSCREEN:13]SHAREDSCREEN:3] \[SHAREDSCREEN:8] \[SHAREDSCREEN:13]
+
+---------------------------
+
+
+Mental Model for MCP
+
+Think of MCP as a USB-C port for AI.
+
+Just as:
+
+USB-C provides one standard way to connect keyboards, monitors, storage devices, etc.
+MCP provides one standard way for AI models to connect to databases, APIs, files, ticket systems, Jira, GitHub, and internal applications.
+Traditional Integration (Without MCP)
+Claude  ── Custom Integration #1 ── Database
+Claude  ── Custom Integration #2 ── Jira
+Claude  ── Custom Integration #3 ── GitHub
+Claude  ── Custom Integration #4 ── Filesystem
+
+
+Every tool needs a separate integration.
+
+MCP Integration Model
+                  MCP Protocol
+                       │
+                       ▼
+      ┌──────────────────────────┐
+      │      MCP Client          │
+      │  (Claude/ChatGPT/VSCode) │
+      └────────────┬─────────────┘
+                   │
+                   ▼
+      ┌──────────────────────────┐
+      │       MCP Server         │
+      └───────┬───────┬──────────┘
+              │       │
+              │       │
+              ▼       ▼
+          Database   APIs
+              │
+              ▼
+            Files
+
+
+The AI talks only to the MCP Server.
+
+The MCP Server knows how to talk to:
+
+Databases
+APIs
+File systems
+Business applications
+Mental Model of Roles
+AI Client (Claude Desktop)
+
+Think:
+
+"I am the brain. I understand language but I don't have direct access to your systems."
+
+Example:
+
+Show me all high-priority tickets.
+
+
+Claude understands the request but cannot query your database itself.
+
+MCP Server
+
+Think:
+
+"I am a safe translator and gatekeeper."
+
+The MCP server:
+
+Receives request from Claude
+Determines allowed tool
+Executes operation
+Returns result
+
+Example:
+
+Claude
+   ↓
+list_tickets(priority="high")
+   ↓
+MCP Server
+   ↓
+Database
+   ↓
+Result
+   ↓
+Claude
+
+Tools
+
+Mental Model:
+
+Tools are the "verbs" of MCP.
+
+Examples:
+
+list_tickets()
+create_ticket()
+search_ticket()
+list_tables()
+read_file()
+
+
+These perform actions.
+
+During the meeting:
+
+list_tables
+run_read_query
+list_ticket
+search_ticket
+
+were examples of MCP tools.
+
+Resources
+
+Mental Model:
+
+Resources are the "nouns" of MCP.
+
+Examples:
+
+tickets://open
+customer://123
+config://application
+
+
+Resources provide information.
+
+They don't perform actions.
+
+This was introduced during the advanced support-ticket MCP example.
+
+Prompts
+
+Mental Model:
+
+Prompts are reusable workflows.
+
+Instead of repeatedly writing:
+
+Read ticket
+Analyse sentiment
+Draft customer reply
+
+
+you create a prompt:
+
+draft_ticket_reply(ticketId)
+
+
+and MCP executes the workflow for you.
+
+Mental Model of the DB Inspector Demo
+
+The entire demo can be thought of as:
+
+Claude
+   ↓
+MCP Server
+   ↓
+SQLite Database
+
+
+Claude asks:
+
+Show only ERROR logs
+
+
+MCP converts it into:
+
+SELECT * FROM system_logs
+WHERE level='ERROR'
+
+
+The database returns results and Claude explains them in human language.
+
+Mental Model of the Support Ticket Demo
+
+The second project demonstrated a more realistic business scenario:
+
+Customer Support System
+        ↓
+      MCP
+        ↓
+     Claude
+
+
+Instead of opening a support portal and searching manually, users can ask:
+
+Show all urgent tickets.
+
+
+Claude → MCP Tool → Ticket Backend → Results
+
+The MCP server acts as a secure business layer between AI and enterprise systems.
+
+One-Line Interview Answer
+
+If you're asked**"What is the mental model of MCP?"**, a strong answer is:
+
+MCP is a standard protocol that lets AI models securely interact with external tools, resources, and business systems through a client-server architecture, much like USB-C provides a standard interface for connecting devices.
+
+-----------------------------
+SUMMARY
+
+Summary of Meeting
+
+Topic: Backend Security Engineering, JWT Authentication, OAuth 2.0/OpenID Connect, AI-Assisted Security Auditing, and enterprise-grade API security implementation. The session also briefly introduced Redis caching, rate limiting, and performance profiling as the next topic.
+
+Presenter: nishi
+ Meeting Type: Technical training / knowledge-sharing session. The meeting recording is stored as Meeting-20260710_133000UTC-Meeting Recording.mp4.
+
+Key Topics Covered
+1. Authentication & Authorisation Fundamentals
+
+The trainer revisited concepts from the previous session:
+
+JWT (JSON Web Token) authentication
+Refresh token design
+Role-Based Access Control (RBAC)
+OAuth 2.0
+OpenID Connect
+Secure API design
+AI-driven security auditing and vulnerability detection
+
+The discussion focused on how stateless services share verified user information safely and how RBAC simplifies permission management by assigning permissions to roles instead of individuals.
+
+2. Secure Notes API Project Walkthrough
+
+A practical project was demonstrated where users can:
+
+Register
+Log in
+Create, update, view and delete notes
+Access protected APIs
+Use admin-only operations
+Authenticate through Google OAuth
+
+The trainer explained the architecture, including:
+
+Authentication routes
+JWT middleware
+Role validation
+Rate limiting
+Password hashing
+Token generation
+Prisma ORM database integration
+Google OAuth implementation
+3. JWT and Refresh Token Flow
+
+The session covered:
+
+User registration
+Password hashing
+JWT generation
+Refresh token storage
+Protected endpoint access
+Role validation
+Token refresh workflow
+Secure logout process
+
+The trainer demonstrated API testing through Postman and explained how access tokens and refresh tokens work together to maintain security while avoiding frequent logins.
+
+4. AI-Assisted Security Auditing
+
+A significant portion of the session focused on how AI tools can assist developers by:
+
+Reviewing middleware
+Detecting security vulnerabilities
+Finding weak JWT implementations
+Identifying missing validations
+Detecting hard-coded secrets
+Suggesting secure coding improvements
+Generating validation schemas
+Producing audit reports
+
+Examples discussed included:
+
+SQL Injection
+Broken authentication
+JWT vulnerabilities
+CSRF risks
+Hard-coded secrets
+Unsafe API implementations
+5. Security Tooling Demonstration
+
+The trainer demonstrated security scanning workflows using:
+
+GitHub Copilot
+NPM Audit
+Semgrep/static analysis tools
+OWASP security checks
+
+The discussion highlighted how automated tools scan TypeScript code and configuration files to identify:
+
+JWT verification issues
+Missing token expiry checks
+Missing issuer validation
+Password security issues
+Insecure cryptography
+Configuration mistakes
+YAML errors
+Hard-coded credentials
+6. Interactive Discussion on RBAC Design
+
+There was an interactive discussion involving AshishA Kamble and other participants about managing user roles and registering administrative users. Topics discussed included:
+
+Whether role assignment should happen during registration
+Database schema considerations
+Role-based permissions
+Access scopes
+Authentication vs authorisation responsibilities
+
+Notably, AshishA Kamble contributed suggestions regarding access tokens, logout behaviour, scopes, and role-management approaches during the hands-on exercise.
+
+7. Next Topic Preview – Performance & Scalability
+
+The trainer introduced the next learning module that will cover:
+
+Redis Caching
+Reducing database load
+Storing frequently requested data in memory
+Faster response times
+High-traffic application optimisation
+Rate Limiting
+Preventing abuse and bot traffic
+Restricting excessive requests
+Protecting system resources during traffic spikes
+Performance Profiling
+Finding slow code paths
+Identifying database bottlenecks
+Measuring execution time
+Capacity planning for large-scale systems
+
+The discussion used large-scale ticket booking scenarios (e.g., concert booking platforms) to explain how caching, rate limiting and profiling help systems handle extreme traffic.
+
+Practical Takeaways
+Build authentication systems using JWT + refresh tokens.
+Separate authentication from authorisation using RBAC.
+Store secrets in environment variables rather than source code.
+Use AI tools as security reviewers rather than blindly generating code.
+Run automated security scans early in development.
+Validate inputs rigorously using schema-based validation.
+Prepare backend systems for scale using caching, rate limiting and profiling.
+Action Items / Follow-up
+Participants were asked to review the shared project materials and walkthrough documentation.
+Participants were encouraged to experiment with modifying the role-registration logic and discuss solutions in the next session.
+The next session will continue with Redis caching, rate limiting, and performance profiling concepts.
+
+--------------------------------
+
+1. Secure Backend Foundation (Can users be trusted?)
+Mental Model:
+
+Identity → Permissions → Protection
+
+User
+  ↓
+Authentication (Who are you?)
+  ↓
+JWT / OAuth
+  ↓
+Authorization (What can you do?)
+  ↓
+RBAC
+  ↓
+Protected APIs
+
+
+Key ideas:
+
+JWT = Digital ID card
+Refresh Token = Renewable passport
+RBAC = Permission matrix
+OAuth = Login through external identity providers
+
+Question to always ask:
+
+"How do I prove who the user is and what they are allowed to do?"
+
+2. AI-Assisted Secure Development (Can code be trusted?)
+Mental Model:
+
+Think of AI as a Security Code Reviewer
+
+Developer writes code
+          ↓
+     AI Reviews
+          ↓
+ Security Issues Found
+          ↓
+ Developer Fixes
+          ↓
+ Production
+
+
+AI helps identify:
+
+Hardcoded Secrets
+JWT Vulnerabilities
+Missing Validation
+SQL Injection
+Authentication Flaws
+Configuration Issues
+
+
+Remember:
+
+AI is not replacing security engineers. AI is acting as a fast junior security auditor.
+
+3. MCP (Model Context Protocol) (Can AI interact with systems?)
+
+This was the major topic of the session.
+
+Simplest Mental Model
+
+Think of MCP as:
+
+USB-C for AI
+
+
+Before USB-C:
+
+Phone 1 -> Charger A
+Phone 2 -> Charger B
+Phone 3 -> Charger C
+
+
+After USB-C:
+
+One universal connector
+
+
+Similarly:
+
+Without MCP:
+
+AI #1 -> Custom Integration -> Database
+AI #2 -> Custom Integration -> Database
+AI #3 -> Custom Integration -> Database
+
+
+With MCP:
+
+AI
+ ↓
+MCP
+ ↓
+Database / APIs / Files / Tools
+
+
+One standard protocol.
+
+MCP Architecture Mental Model
+Think Like a Restaurant
+Customer
+ ↓
+Waiter
+ ↓
+Kitchen
+
+
+Mapped to MCP:
+
+User
+ ↓
+Host
+ ↓
+Client
+ ↓
+Server
+ ↓
+Database / Tool
+
+Components
+MCP Host
+
+Examples:
+
+Claude Desktop
+VS Code
+Copilot
+
+Role:
+
+User Interface
+
+MCP Client
+
+Role:
+
+Translator
+
+
+Converts requests into MCP protocol.
+
+MCP Server
+
+Role:
+
+Tool Provider
+
+
+Provides:
+
+Files
+Database access
+APIs
+Actions
+Three Pillars of MCP
+
+This is probably the most important interview concept.
+
+Remember:
+Resources
+Tools
+Prompts
+
+Resources = Read
+Get Customer Data
+Read File
+Read Database
+
+
+Think:
+
+READ ONLY
+
+Tools = Act
+Create Ticket
+Delete File
+Send Mail
+Execute Command
+
+
+Think:
+
+DO SOMETHING
+
+Prompts = Guide
+Instructions
+Templates
+Context
+
+
+Think:
+
+HOW TO THINK
+
+STDIO vs HTTP Mental Model
+STDIO
+LLM
+ ↓
+Local Process
+
+
+Think:
+
+Same Machine
+
+
+Advantages:
+
+Fast
+Secure
+No network
+
+Examples:
+
+Claude Desktop
+Local development
+HTTP/SSE
+LLM
+ ↓
+Network
+ ↓
+Remote MCP Server
+
+
+Think:
+
+Cloud Deployment
+
+
+Examples:
+
+Enterprise systems
+Shared company tools
+Why MCP Exists
+Problem Before MCP
+N AI Systems
+×
+M Data Sources
+
+
+Example:
+
+3 AI Models
+10 Data Sources
+
+= 30 Integrations
+
+
+Every new tool:
+
+More Code
+More Maintenance
+More Bugs
+
+MCP Solution
+AI
+ ↓
+Standard MCP
+ ↓
+Everything
+
+
+Complexity becomes:
+
+Linear
+
+
+instead of
+
+Exponential
+
+MCP vs RAG
+
+Interview favourite.
+
+RAG
+
+Think:
+
+Google Search
+
+
+Process:
+
+Find Data
+Read Data
+Answer User
+
+
+Can only:
+
+✅ Read
+
+Cannot:
+
+❌ Take actions
+
+MCP
+
+Think:
+
+Smart Employee
+
+
+Can:
+
+✅ Read data
+ ✅ Execute actions
+ ✅ Query databases
+ ✅ Create tickets
+ ✅ Trigger workflows
+
+Security Mental Model
+
+Never trust AI.
+
+User
+ ↓
+AI
+ ↓
+MCP
+ ↓
+Protected Systems
+
+
+Security layers:
+
+Authentication
+Authorization
+Least Privilege
+Human Approval
+Data Sanitization
+
+
+Important interview phrase:
+
+"Treat the LLM as an untrusted agent."
+
+The session emphasised:
+
+OAuth 2.1
+Zero Trust
+Human-in-the-Loop (HITL)
+Prompt Injection protection
+Data sanitisation
+Least privilege access
+
+These are critical MCP security principles.
+
+One-Page Interview Memory Map
+Backend Security
+├── JWT
+├── Refresh Token
+├── OAuth
+└── RBAC
+
+AI Security
+├── Code Review
+├── Vulnerability Detection
+└── Security Auditing
+
+MCP
+├── Host
+├── Client
+├── Server
+│
+├── Resources (Read)
+├── Tools (Act)
+└── Prompts (Guide)
+│
+├── STDIO (Local)
+├── HTTP (Cloud)
+│
+└── USB-C for AI
+
+Security
+├── Least Privilege
+├── OAuth 2.1
+├── HITL
+├── Sanitisation
+└── Zero Trust
+
+MCP vs RAG
+├── RAG = Read
+└── MCP = Read + Act
+
+
+Ultimate takeaway:
+ The entire session can be remembered as:
+
+ 

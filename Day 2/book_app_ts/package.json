@@ -1,0 +1,27 @@
+{
+  "name": "book_app_ts",
+  "version": "1.0.0",
+  "description": "A refactored Node.js book API with TypeScript and OpenAPI",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "build": "tsc",
+    "dev": "ts-node src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.0",
+    "body-parser": "^2.3.0",
+    "express": "^5.2.1",
+    "swagger-ui-express": "^5.0.1",
+    "ts-node": "^10.9.2",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.13.0",
+    "typescript": "^6.0.3"
+  }
+}

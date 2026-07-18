@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Observability Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="chart.min.js"></script>
+</head>
+
+<body>
+
+    <!-- ========================= -->
+    <!-- Dashboard Header -->
+    <!-- ========================= -->
+
+    <header class="header">
+
+        <div class="logo">
+
+            <h1>AI Observability Dashboard</h1>
+
+            <p>
+                Intelligent Log Analysis & Request Monitoring
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- AI Analysis Cards -->
+    <!-- ========================= -->
+
+    <section class="cards-section">
+
+        <!-- Total Logs -->
+
+        <div class="card">
+
+            <h3>Total Logs</h3>
+
+            <h1 id="totalLogs">0</h1>
+
+            <p>Total log entries processed</p>
+
+        </div>
+
+
+        <!-- Total Requests -->
+
+        <div class="card">
+
+            <h3>Total Requests</h3>
+
+            <h1 id="totalRequests">0</h1>
+
+            <p>Requests detected from logs</p>
+
+        </div>
+
+
+        <!-- Repeated Patterns -->
+
+        <div class="card">
+
+            <h3>Repeated Patterns</h3>
+
+            <h1 id="repeatedPatterns">0</h1>
+
+            <p>Recurring error/request patterns</p>
+
+        </div>
+
+
+        <!-- Root Cause -->
+
+        <div class="card">
+
+            <h3>Root Cause</h3>
+
+            <h1 id="rootCause">--</h1>
+
+            <p>Most probable issue detected</p>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- Health Status -->
+    <!-- ========================= -->
+
+    <section class="health-section">
+
+        <h2>System Health</h2>
+
+        <div class="health-cards">
+
+            <!-- Status -->
+
+            <div class="card">
+
+                <h3>Status</h3>
+
+                <h1 id="healthStatus">Checking...</h1>
+
+                <p>Current server status</p>
+
+            </div>
+
+
+            <!-- CPU -->
+
+            <div class="card">
+
+                <h3>CPU Usage</h3>
+
+                <h1 id="cpuUsage">0%</h1>
+
+                <p>Processor utilization</p>
+
+            </div>
+
+
+            <!-- Memory -->
+
+            <div class="card">
+
+                <h3>Memory Usage</h3>
+
+                <h1 id="memoryUsage">0 MB</h1>
+
+                <p>Application memory</p>
+
+            </div>
+
+
+            <!-- Uptime -->
+
+            <div class="card">
+
+                <h3>Uptime</h3>
+
+                <h1 id="uptime">0 sec</h1>
+
+                <p>Server running time</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- Placeholder for Charts -->
+    <!-- (Will implement later) -->
+    <!-- ========================= -->
+
+    <!-- ========================= -->
+    <!-- Charts Section -->
+    <!-- ========================= -->
+
+    <section class="charts-section">
+
+        <h2>System Metrics</h2>
+
+        <div class="charts-container">
+
+            <!-- ========================= -->
+            <!-- Response Time Chart -->
+            <!-- ========================= -->
+
+            <div class="chart-card">
+
+                <h3>Response Time</h3>
+
+                <p>Request processing time over time</p>
+
+                <canvas id="responseTimeChart"></canvas>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- Error Distribution Chart -->
+            <!-- ========================= -->
+
+            <div class="chart-card">
+
+                <h3>Error Distribution</h3>
+
+                <p>Error category breakdown</p>
+
+                <canvas id="errorDistributionChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- Placeholder for AI Analysis -->
+    <!-- ========================= -->
+
+    <!-- ========================= -->
+    <!-- AI Analysis Section -->
+    <!-- ========================= -->
+
+    <section class="analysis-section">
+
+        <h2>AI Analysis</h2>
+
+        <div class="analysis-card">
+
+            <!-- Root Cause -->
+
+            <div class="analysis-item">
+
+                <h3>Root Cause</h3>
+
+                <p id="analysisRootCause">
+
+                    Waiting for AI analysis...
+
+                </p>
+
+            </div>
+
+
+            <!-- Confidence -->
+
+            <div class="analysis-item">
+
+                <h3>Confidence</h3>
+
+                <p id="analysisConfidence">
+
+                    0%
+
+                </p>
+
+            </div>
+
+
+            <!-- Recommendation -->
+
+            <div class="analysis-item">
+
+                <h3>Recommendation</h3>
+
+                <p id="analysisRecommendation">
+
+                    Waiting for recommendation...
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- Dashboard Script -->
+    <!-- ========================= -->
+
+    <script src="dashboard.js"></script>
+
+</body>
+
+</html>

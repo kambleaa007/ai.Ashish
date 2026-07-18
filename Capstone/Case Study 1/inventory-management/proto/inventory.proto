@@ -1,0 +1,306 @@
+syntax = "proto3";
+
+package inventory;
+
+// Enums
+enum InventoryStatus {
+  IN_STOCK = 0;
+  LOW_STOCK = 1;
+  OUT_OF_STOCK = 2;
+}
+
+enum UserRole {
+  ADMIN = 0;
+  MANAGER = 1;
+  STAFF = 2;
+}
+
+enum StockMovementType {
+  INBOUND = 0;
+  OUTBOUND = 1;
+  TRANSFER = 2;
+  ADJUSTMENT = 3;
+}
+
+// Common Messages
+message Empty {}
+
+message UUID {
+  string value = 1;
+}
+
+message Timestamp {
+  int64 seconds = 1;
+  int32 nanos = 2;
+}
+
+message PaginationRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+message PageInfo {
+  int32 page = 1;
+  int32 limit = 2;
+  int32 total = 3;
+  int32 totalPages = 4;
+}
+
+// User Messages
+message User {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+  UserRole role = 4;
+  Timestamp createdAt = 5;
+  Timestamp updatedAt = 6;
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+  string name = 3;
+  UserRole role = 4;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  User user = 1;
+  string token = 2;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  string name = 2;
+  UserRole role = 3;
+}
+
+// Warehouse Messages
+message Warehouse {
+  string id = 1;
+  string name = 2;
+  string location = 3;
+  double capacity = 4;
+  string manager = 5;
+  string contact = 6;
+  Timestamp createdAt = 7;
+  Timestamp updatedAt = 8;
+}
+
+message CreateWarehouseRequest {
+  string name = 1;
+  string location = 2;
+  double capacity = 3;
+  string manager = 4;
+  string contact = 5;
+}
+
+message UpdateWarehouseRequest {
+  string id = 1;
+  string name = 2;
+  string location = 3;
+  double capacity = 4;
+  string manager = 5;
+  string contact = 6;
+}
+
+message WarehouseList {
+  repeated Warehouse warehouses = 1;
+  PageInfo pageInfo = 2;
+}
+
+// Product Messages
+message Product {
+  string id = 1;
+  string name = 2;
+  string sku = 3;
+  string description = 4;
+  double price = 5;
+  string category = 6;
+  string supplier = 7;
+  Timestamp createdAt = 8;
+  Timestamp updatedAt = 9;
+}
+
+message CreateProductRequest {
+  string name = 1;
+  string sku = 2;
+  string description = 3;
+  double price = 4;
+  string category = 5;
+  string supplier = 6;
+}
+
+message UpdateProductRequest {
+  string id = 1;
+  string name = 2;
+  string sku = 3;
+  string description = 4;
+  double price = 5;
+  string category = 6;
+  string supplier = 7;
+}
+
+message ProductList {
+  repeated Product products = 1;
+  PageInfo pageInfo = 2;
+}
+
+message ProductByCategoryRequest {
+  string category = 1;
+  PaginationRequest pagination = 2;
+}
+
+// Inventory Messages
+message Inventory {
+  string id = 1;
+  string productId = 2;
+  Product product = 3;
+  string warehouseId = 4;
+  Warehouse warehouse = 5;
+  double quantity = 6;
+  double minThreshold = 7;
+  double maxThreshold = 8;
+  InventoryStatus status = 9;
+  Timestamp createdAt = 10;
+  Timestamp updatedAt = 11;
+}
+
+message CreateInventoryRequest {
+  string productId = 1;
+  string warehouseId = 2;
+  double quantity = 3;
+  double minThreshold = 4;
+  double maxThreshold = 5;
+}
+
+message UpdateInventoryQuantityRequest {
+  string id = 1;
+  double quantity = 2;
+}
+
+message TransferInventoryRequest {
+  string id = 1;
+  string fromWarehouseId = 2;
+  string toWarehouseId = 3;
+  double quantity = 4;
+}
+
+message InventoryTransferResponse {
+  Inventory from = 1;
+  Inventory to = 2;
+}
+
+message InventoryList {
+  repeated Inventory inventories = 1;
+  PageInfo pageInfo = 2;
+}
+
+message InventoryByWarehouseRequest {
+  string warehouseId = 1;
+  PaginationRequest pagination = 2;
+}
+
+message InventoryByProductRequest {
+  string productId = 1;
+  PaginationRequest pagination = 2;
+}
+
+// Stock Movement Messages
+message StockMovement {
+  string id = 1;
+  string productId = 2;
+  Product product = 3;
+  string fromWarehouseId = 4;
+  Warehouse fromWarehouse = 5;
+  string toWarehouseId = 6;
+  Warehouse toWarehouse = 7;
+  double quantity = 8;
+  StockMovementType type = 9;
+  string notes = 10;
+  Timestamp createdAt = 11;
+  string createdBy = 12;
+}
+
+message StockMovementList {
+  repeated StockMovement movements = 1;
+  PageInfo pageInfo = 2;
+}
+
+message StockMovementByProductRequest {
+  string productId = 1;
+  PaginationRequest pagination = 2;
+}
+
+message StockMovementByWarehouseRequest {
+  string warehouseId = 1;
+  PaginationRequest pagination = 2;
+}
+
+message StockMovementByTypeRequest {
+  StockMovementType type = 1;
+  PaginationRequest pagination = 2;
+}
+
+// Response wrapper for delete operations
+message DeleteResponse {
+  bool success = 1;
+}
+
+// Error response
+message ErrorResponse {
+  string message = 1;
+  string code = 2;
+  int32 statusCode = 3;
+}
+
+// Service Definitions
+service UserService {
+  rpc Register(RegisterRequest) returns (AuthResponse) {}
+  rpc Login(LoginRequest) returns (AuthResponse) {}
+  rpc GetUser(UUID) returns (User) {}
+  rpc UpdateUser(UpdateUserRequest) returns (User) {}
+  rpc DeleteUser(UUID) returns (DeleteResponse) {}
+  rpc ListUsers(PaginationRequest) returns (stream User) {}
+}
+
+service WarehouseService {
+  rpc CreateWarehouse(CreateWarehouseRequest) returns (Warehouse) {}
+  rpc GetWarehouse(UUID) returns (Warehouse) {}
+  rpc UpdateWarehouse(UpdateWarehouseRequest) returns (Warehouse) {}
+  rpc DeleteWarehouse(UUID) returns (DeleteResponse) {}
+  rpc ListWarehouses(PaginationRequest) returns (WarehouseList) {}
+}
+
+service ProductService {
+  rpc CreateProduct(CreateProductRequest) returns (Product) {}
+  rpc GetProduct(UUID) returns (Product) {}
+  rpc UpdateProduct(UpdateProductRequest) returns (Product) {}
+  rpc DeleteProduct(UUID) returns (DeleteResponse) {}
+  rpc ListProducts(PaginationRequest) returns (ProductList) {}
+  rpc GetProductsByCategory(ProductByCategoryRequest) returns (ProductList) {}
+}
+
+service InventoryService {
+  rpc CreateInventory(CreateInventoryRequest) returns (Inventory) {}
+  rpc GetInventory(UUID) returns (Inventory) {}
+  rpc UpdateInventoryQuantity(UpdateInventoryQuantityRequest) returns (Inventory) {}
+  rpc TransferInventory(TransferInventoryRequest) returns (InventoryTransferResponse) {}
+  rpc DeleteInventory(UUID) returns (DeleteResponse) {}
+  rpc ListInventory(PaginationRequest) returns (InventoryList) {}
+  rpc GetLowStockItems(PaginationRequest) returns (InventoryList) {}
+  rpc GetInventoryByWarehouse(InventoryByWarehouseRequest) returns (InventoryList) {}
+  rpc GetInventoryByProduct(InventoryByProductRequest) returns (InventoryList) {}
+}
+
+service StockMovementService {
+  rpc GetStockMovement(UUID) returns (StockMovement) {}
+  rpc ListStockMovements(PaginationRequest) returns (StockMovementList) {}
+  rpc GetStockMovementsByProduct(StockMovementByProductRequest) returns (StockMovementList) {}
+  rpc GetStockMovementsByWarehouse(StockMovementByWarehouseRequest) returns (StockMovementList) {}
+  rpc GetStockMovementsByType(StockMovementByTypeRequest) returns (StockMovementList) {}
+}

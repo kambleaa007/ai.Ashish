@@ -25,7 +25,8 @@ export class InventoryController {
 
   static async getById(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast parameter safely to string for Express 5 compatibility
+      const id = String(req.params.id);
       const inventory = await inventoryService.getInventory(id);
       sendSuccess(res, 200, 'Inventory retrieved', inventory);
     } catch (error) {
@@ -73,7 +74,8 @@ export class InventoryController {
 
   static async getByWarehouse(req: AuthRequest, res: Response) {
     try {
-      const { warehouseId } = req.params;
+      // FIX: Cast parameters safely to string
+      const warehouseId = String(req.params.warehouseId);
       const pagination = PaginationSchema.parse({
         page: parseInt(req.query.page as string) || 1,
         limit: parseInt(req.query.limit as string) || 10,
@@ -91,7 +93,8 @@ export class InventoryController {
 
   static async getByProduct(req: AuthRequest, res: Response) {
     try {
-      const { productId } = req.params;
+      // FIX: Cast parameters safely to string
+      const productId = String(req.params.productId);
       const pagination = PaginationSchema.parse({
         page: parseInt(req.query.page as string) || 1,
         limit: parseInt(req.query.limit as string) || 10,
@@ -109,7 +112,8 @@ export class InventoryController {
 
   static async updateQuantity(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast parameter safely to string
+      const id = String(req.params.id);
       const { quantity } = z.object({ quantity: z.number().nonnegative() }).parse(req.body);
       const inventory = await inventoryService.updateInventory(id, quantity, req.user?.id || 'system');
       sendSuccess(res, 200, 'Inventory quantity updated', inventory);
@@ -131,7 +135,9 @@ export class InventoryController {
           quantity: z.number().positive(),
         })
         .parse(req.body);
-      const { id } = req.params;
+      
+      // FIX: Cast parameters safely to string
+      const id = String(req.params.id);
       const result = await inventoryService.transferInventory(
         id,
         fromWarehouseId,
@@ -151,7 +157,8 @@ export class InventoryController {
 
   static async delete(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast parameter safely to string
+      const id = String(req.params.id);
       await inventoryService.deleteInventory(id);
       sendSuccess(res, 200, 'Inventory deleted successfully');
     } catch (error) {

@@ -24,7 +24,8 @@ export class ProductController {
 
   static async getById(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast parameter safely to string for Express 5 validation layers
+      const id = String(req.params.id);
       const product = await productService.getProduct(id);
       sendSuccess(res, 200, 'Product retrieved', product);
     } catch (error) {
@@ -55,7 +56,8 @@ export class ProductController {
 
   static async getByCategory(req: AuthRequest, res: Response) {
     try {
-      const { category } = req.params;
+      // FIX: Cast parameters safely to string
+      const category = String(req.params.category);
       const pagination = PaginationSchema.parse({
         page: parseInt(req.query.page as string) || 1,
         limit: parseInt(req.query.limit as string) || 10,
@@ -73,7 +75,8 @@ export class ProductController {
 
   static async update(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast parameters safely to string
+      const id = String(req.params.id);
       const validated = ProductCreateSchema.partial().parse(req.body);
       const product = await productService.updateProduct(id, validated);
       sendSuccess(res, 200, 'Product updated successfully', product);
@@ -88,7 +91,8 @@ export class ProductController {
 
   static async delete(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast parameters safely to string
+      const id = String(req.params.id);
       await productService.deleteProduct(id);
       sendSuccess(res, 200, 'Product deleted successfully');
     } catch (error) {

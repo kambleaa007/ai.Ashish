@@ -66,7 +66,9 @@ const PORT = process.env.PORT || 3000;
 export const startServer = async () => {
   const apolloServer = createApolloServer();
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app, path: '/graphql' });
+  
+  // FIX: Cast app to 'any' to bridge the Express 5 to Apollo v3 type system gap
+  apolloServer.applyMiddleware({ app: app as any, path: '/graphql' });
 
   const server = app.listen(PORT, () => {
     console.log(`✓ REST API server running on http://localhost:${PORT}`);

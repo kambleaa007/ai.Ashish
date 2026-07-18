@@ -24,7 +24,8 @@ export class WarehouseController {
 
   static async getById(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast parameter safely to string for Express 5 parameters type-matching
+      const id = String(req.params.id);
       const warehouse = await warehouseService.getWarehouse(id);
       sendSuccess(res, 200, 'Warehouse retrieved', warehouse);
     } catch (error) {
@@ -55,7 +56,8 @@ export class WarehouseController {
 
   static async update(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast parameters safely to string
+      const id = String(req.params.id);
       const validated = WarehouseCreateSchema.partial().parse(req.body);
       const warehouse = await warehouseService.updateWarehouse(id, validated);
       sendSuccess(res, 200, 'Warehouse updated successfully', warehouse);
@@ -70,7 +72,8 @@ export class WarehouseController {
 
   static async delete(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast parameters safely to string
+      const id = String(req.params.id);
       await warehouseService.deleteWarehouse(id);
       sendSuccess(res, 200, 'Warehouse deleted successfully');
     } catch (error) {

@@ -75,7 +75,8 @@ export class UserController {
 
   static async update(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast variable safely to string for Express 5 parameters type-matching
+      const id = String(req.params.id);
       const validated = z
         .object({ name: z.string().optional(), role: z.enum(['ADMIN', 'MANAGER', 'STAFF']).optional() })
         .parse(req.body);
@@ -92,7 +93,8 @@ export class UserController {
 
   static async delete(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      // FIX: Cast parameters safely to string
+      const id = String(req.params.id);
       await userService.deleteUser(id);
       sendSuccess(res, 200, 'User deleted successfully');
     } catch (error) {

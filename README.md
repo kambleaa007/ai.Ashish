@@ -1,6 +1,8 @@
 # ai.Ashish
 AI-Enabled Enterprise Backend Engineering
 
+![aiAshish](img/aiAshish.jpg)
+
 ## Setup
 
 ```bash

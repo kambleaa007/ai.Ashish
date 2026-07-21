@@ -1,30 +1,42 @@
 # ai.Ashish
-AI-Enabled Enterprise Backend Engineering 
+AI-Enabled Enterprise Backend Engineering
 
+![aiAshish](img/aiAshish.jpg)
 
-set up
-then run
+## Setup
 
+```bash
 npm install express body-parser typescript @types/express @types/node ts-node
 npm run build
 npm run start
+```
 
+## OpenAPI Integration
 
-have details in openapi.yml file then run below 
+Generate TypeScript types from OpenAPI spec:
+
+```bash
 npx openapi-typescript openapi/openapi.yaml --output src/types/api.ts
 npm install swagger-ui-express yamljs
+```
 
+## TypeScript Refactoring Exercise
 
-Inconsistent coding Standards
+### Current Issues
 
-Incorrect Type Inference
+- Inconsistent coding standards
+- Incorrect type inference
 
+### Topics Covered
 
-Generics
-Utility Types
-Decorators
-Async Patterns
+- Generics
+- Utility Types
+- Decorators
+- Async Patterns
 
+### Sample Code (Before Refactoring)
+
+```typescript
 type User = { id: number; name: string; email: string };
  
 async function fetchUsers() {
@@ -52,24 +64,25 @@ async function bulkFetch(urls: string[]) {
     }
     return results;
 }
+```
 
+### Refactoring Goals
 
+- Modify code by using no `any`
+- Strong typing using generics
+- Proper error handling
+- HTTP status validation
+- JSDoc documentation
+- Readable code
+- Strict TypeScript compatible
 
-Modif code by using No any
-Strong typing using generics
-Proper error handling
-HTTP status validation
-JSDoc documentation
-Readable code
-Strict TypeScript compatible
+### Tasks
 
-Analyze the following TypeScript code as if it were going to production.
-Tasks
 1. Identify all code smells.
 2. Explain the business impact of every issue.
 3. Explain the technical impact.
 4. Refactor the code.
-5. Replace any with generics.
+5. Replace `any` with generics.
 6. Create a reusable API client.
 7. Centralize retry logic.
 8. Add timeout support.
@@ -82,11 +95,5 @@ Tasks
 15. Make the code easily testable.
 16. Add JSDoc comments.
 17. Explain every change.
+
 Generate production-quality TypeScript.
-
-
-npx openapi-typescript openapi/openapi.yaml --output src/types/api.ts
-   npm install swagger-ui-express yamljs
-
-
-

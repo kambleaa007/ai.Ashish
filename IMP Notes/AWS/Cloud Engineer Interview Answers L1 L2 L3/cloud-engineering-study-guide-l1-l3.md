@@ -9,7 +9,15 @@ This comprehensive guide serves as a structured master reference for AWS Cloud E
 
 ## SECTION 1: Level 1 - Foundational Concept Clarity (L1)
 
+![Cloud Foundations](imgs/Cloud_Foundations_summary_slide_202607282219.jpeg)
+
+![Storyboard Cloud Computing Series](imgs/Storyboard_for_Cloud_Computing_s…_202607282146.jpeg)
+
+![Storyboard Cloud Computing Series 2](imgs/Storyboard_Cloud_Computing_Serie…_202607282150.jpeg)
+
 ### I. Cloud Computing & Resource Typologies
+
+![Cloud Computing Basics](imgs/Cloud_computing_basics_split_screen_202607282216.jpeg)
 *   **What:** Cloud computing is the renting of computing resources (compute, storage, databases, and networking) from public cloud providers (such as AWS) via pay-as-you-go billing, eliminating the need to procure, cool, and maintain physical server hardware [1].
 *   **Why:** It replaces capital expenditure (CapEx) with flexible operational expenditure (OpEx) [28], enabling companies to run lightweight architectures, launch products globally in minutes [29], and scale capacity dynamically to match fluctuating user demand [2, 21].
 *   **Where:** Resources are deployed in highly resilient geographic boundaries [4]. Global infrastructure is divided into **Regions** (independent geographic locations such as N. Virginia or London) [4] and **Availability Zones (AZs)** (physically separated datacenters within a Region with redundant power, cooling, and fiber links) [5, 33].
@@ -26,6 +34,8 @@ This comprehensive guide serves as a structured master reference for AWS Cloud E
 ---
 
 ### II. The Core As-A-Service Models
+
+![As-A-Service Models](imgs/As-A-Service_Models_illustration_202607282216.jpeg)
 *   **What:** Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS) represent the three primary levels of cloud services, differentiated by the boundary of responsibility between the tenant and AWS [3].
 *   **Why:** Different applications require different balances of control vs. management overhead [3].
 *   **Where:** Operating across all compute boundaries in AWS.
@@ -49,6 +59,8 @@ This comprehensive guide serves as a structured master reference for AWS Cloud E
 ---
 
 ### III. Public vs. Private Subnets
+
+![Public vs Private Subnets](imgs/Public_vs_Private_Subnets_illust…_202607282216.jpeg)
 *   **What:** A subnet is a subdivided IP range within a Virtual Private Cloud (VPC) [6, 25]. A public subnet has a direct routing pathway to the internet via an Internet Gateway [7, 40]. A private subnet cannot be reached from the internet directly [8, 40].
 *   **Why:** Enforces network segmentation to isolate sensitive backends and databases from public-facing interfaces [7, 8].
 *   **Where:** Carved out of your VPC's CIDR block (e.g., subnetting 10.0.1.0/24 inside VPC CIDR 10.0.0.0/16) [6, 25].
@@ -66,6 +78,8 @@ This comprehensive guide serves as a structured master reference for AWS Cloud E
 ---
 
 ### IV. Stateful Security Groups vs. Stateless Network ACLs (NACLs)
+
+![Security Groups vs NACLs](imgs/Security_Groups_vs_NACLs_illustr…_202607282216.jpeg)
 *   **What:** Security Groups and Network ACLs (NACLs) are the two primary firewall layers that filter traffic inside a VPC [18, 75].
 *   **Why:** Multi-layered security (defense-in-depth) ensures that even if an instance firewall is misconfigured, the network-level subnet boundary remains secure [91, 161].
 *   **Where:** Security Groups operate at the individual network interface/instance level [18, 75]. NACLs operate globally at the subnet boundary [75].
@@ -83,6 +97,10 @@ This comprehensive guide serves as a structured master reference for AWS Cloud E
 ---
 
 ### V. S3, EBS, and EFS Storage Paradigms
+
+![AWS Storage Paradigms](imgs/AWS_Storage_Paradigms_illustration_202607282216.jpeg)
+
+![AWS Storage Paradigms 2](imgs/AWS_Storage_Paradigms_illustration_202607282219.jpeg)
 *   **What:** S3 (object storage), EBS (block storage), and EFS (network file storage) are the three primary storage types in AWS, designed for entirely different application access patterns [14, 15, 16].
 *   **Why:** Different systems require varying combinations of scale, shareability, and access speeds [147].
 *   **Where:**
@@ -110,7 +128,13 @@ This comprehensive guide serves as a structured master reference for AWS Cloud E
 
 ## SECTION 2: Level 2 - Internal Workings & Deep-Dive Mechanics (L2)
 
+![Internal Workings](imgs/Internal_Workings_summary_slide_202607282219.jpeg)
+
+![Storyboard Section 2 Level 2](imgs/Storyboard_Section_2_Level_2_202607282159.jpeg)
+
 ### I. Browser-to-EC2 Traffic Resolution Flow
+
+![Browser to EC2 Traffic Flow](imgs/Browser_to_EC2_traffic_flow_202607282216.jpeg)
 *   **What:** The detailed, multi-layered network flow that occurs from the moment a user types an address in a browser to the moment an EC2 instance returns an HTTP response [84].
 *   **Why:** Crucial for tracking network latencies, troubleshooting load balancer routing failures, and isolating performance drops across protocol layers [172, 188].
 *   **Where:** Across internet root nameservers, CloudFront CDN edge caches, Route 53 resolvers, and VPC network interfaces [81, 84, 109].
@@ -160,6 +184,8 @@ This comprehensive guide serves as a structured master reference for AWS Cloud E
 ---
 
 ### III. S3 Storage Class Management & Optimization Math
+
+![S3 Storage Classes](imgs/S3_Storage_Classes_illustration_202607282216.jpeg)
 *   **What:** S3 storage classes (Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier Instant/Flexible Retrieval, Glacier Deep Archive) are physical and billing optimizations designed around data access frequency [13, 114].
 *   **Why:** Organizations store petabytes of data; using the standard tier for infrequently accessed archives leads to massive cost overruns [54, 153].
 *   **Where:** Executed globally within S3 bucket lifecycles [14, 116].
@@ -186,6 +212,8 @@ This comprehensive guide serves as a structured master reference for AWS Cloud E
 ---
 
 ### IV. IAM Role Security & STS AssumeRole Cryptography
+
+![IAM Security](imgs/Man_holding_holographic_badge_202607282216.jpeg)
 *   **What:** IAM Roles represent temporary security identities that do not contain permanent passwords or static access keys [105, 106].
 *   **Why:** Static IAM User access keys are easily leaked on public source repositories (like GitHub) and are the primary source of catastrophic security breaches [51, 69, 106].
 *   **Where:** Attached to AWS resources (EC2, ECS, Lambda) and trusted identity providers globally [18, 108].
@@ -204,6 +232,8 @@ This comprehensive guide serves as a structured master reference for AWS Cloud E
 ---
 
 ### V. Containerization vs. Virtual Machines (VMs)
+
+![Containers vs VMs](imgs/Containers_vs_Virtual_Machines_i…_202607282216.jpeg)
 *   **What:** Virtual Machines (like EC2 instances) are full operating system installations running on top of physical hardware hypervisors [10, 124]. Containers (like Docker) are isolated user-space environments that share the host operating system's kernel [124].
 *   **Why:** Modern systems require ultra-fast boot times, high packaging density, and a consistent environment from a developer’s laptop to production [123, 124, 164].
 *   **Where:** Managed using orchestrators like Amazon ECS or EKS [125, 126].
@@ -222,7 +252,13 @@ This comprehensive guide serves as a structured master reference for AWS Cloud E
 
 ## SECTION 3: Level 3 - System Design Scenarios & Triage (L3)
 
+![System Design Triage](imgs/System_Design_Triage_Summary_Slide_202607282219.jpeg)
+
+![Storyboard Section 3 Level 3](imgs/Storyboard_Section_3_Level_3_202607282217.jpeg)
+
 ### I. Real-Time Production Down "5-Step Triage" Playbook
+
+![Production Down Triage](imgs/Production_Down_Triage_command_c…_202607282217.jpeg)
 *   **What:** A rigorous, high-pressure execution playbook for senior engineers when a primary production system goes dark [172].
 *   **Why:** Resolves outages systematically without losing time to chaotic guessing, minimizing financial losses and downtime [60, 62].
 *   **Where:** Executed across all infrastructure layers under peak stress [172].
@@ -256,6 +292,8 @@ Step 5: Review Recent Deployments (CI/CD rollback? CloudTrail audit logs?)
 ---
 
 ### II. High Response Latency with Low CPU Utilization
+
+![Bank Lobby Paradox](imgs/Bank_lobby_paradox_illustration_202607282217.jpeg)
 *   **What:** A performance paradox where users experience high response latencies (>5 seconds), but the backend EC2 hosts show CPU and memory utilization under 15% [194].
 *   **Why:** Adding more servers will not solve this problem. Engineers must diagnose non-compute resource locks [194].
 *   **Where:** Typically isolated within database connection pools, third-party API handshakes, or downstream network configurations [194].
@@ -270,6 +308,10 @@ Step 5: Review Recent Deployments (CI/CD rollback? CloudTrail audit logs?)
 ---
 
 ### III. Disaster Recovery (DR) Strategies: RTO vs. RPO Architectures
+
+![Disaster Recovery Spectrum](imgs/Disaster_Recovery_Spectrum_illust…_202607282217.jpeg)
+
+![Detailed 3D Isometric Illustration](imgs/Detailed_3D_isometric_illustration_of_202607282216.jpeg)
 *   **What:** Disaster Recovery (DR) defines how a system recovers and resumes operations following a catastrophic datacenter or regional outage [184].
 *   **Why:** Ensures business continuity, limits data loss, and meets regulatory compliance targets [61, 184].
 *   **Where:** Across multi-AZ and multi-region AWS environments [5, 137, 184].
@@ -300,6 +342,8 @@ Resiliency: Days/Hours <--------------------------------------> Real-Time
 ---
 
 ### IV. Environment Isolation (Dev, Test, Prod)
+
+![Environment Isolation](imgs/Three_floating_domes_containment_202607282217.jpeg)
 *   **What:** Securing and isolating development, testing, and production workloads to prevent testing mistakes or developer errors from impacting live customer systems [162].
 *   **Why:** Developers occasionally test destructive code blocks, execute load testing, or misconfigure security parameters; these must never impact production environments [162, 163, 185].
 *   **Where:** Across the entire corporate AWS organization [162].
@@ -318,6 +362,8 @@ Resiliency: Days/Hours <--------------------------------------> Real-Time
 ---
 
 ### V. Public S3 Bucket Data Leak Incident Response Playbook
+
+![S3 Incident Response](imgs/Man_slams_override_button_vault_202607282217.jpeg)
 *   **What:** A high-speed security incident response playbook for when a developer accidentally exposes an S3 bucket containing sensitive customer data to the public internet [203].
 *   **Why:** Prevents malicious actors from scraping data, avoids regulatory fines, and limits security damage [203].
 *   **Where:** Across the compromised S3 resource and AWS Identity boundaries [203].

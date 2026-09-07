@@ -1,5 +1,10 @@
 # Gate Smashers Complete System Design Curriculum - Comprehensive Lecture-by-Lecture Technical Summary
 
+<audio controls>
+  <source src="Architecture_for_50_million_concurrent_users.m4a" type="audio/mp4">
+  Your browser does not support the audio element.
+</audio>
+
 Below is an exhaustive, highly structured, in-depth bullet-point summary of **each and every one of the 33 lectures** in the Gate Smashers System Design curriculum. This technical summary is grounded strictly in the video source material and comprehensive lesson guides, detailing every core technical concept, architecture layer, physical process, and production-scale trade-off without skipping a single lecture.
 
 ---

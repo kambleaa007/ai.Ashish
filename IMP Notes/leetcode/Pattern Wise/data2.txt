@@ -1,0 +1,49 @@
+There is no single official number, but in the software engineering community, it is universally agreed that there are between 15 and 20 core patterns that cover roughly 90% to 95% of all LeetCode problems.
+If you want to be completely thorough and include every niche variation, the number expands to 24 patterns.
+Here is the ultimate, complete list of all 24 patterns, grouped by how often they actually appear in interviews.
+------------------------------
+## 🚨 The "Big 3" (Found in ~40% of problems)
+These three patterns appear more than any others. Master these first.
+
+* 1. Sliding Window: For continuous sub-arrays or sub-strings.
+* 2. Two Pointers: For searching pairs or triplets in sorted linear structures.
+* 3. Two Heaps: For tracking running medians or extreme values in streaming data.
+
+## 📈 Highly Frequent Patterns (Found in ~35% of problems)
+You will see these in almost every mid-to-senior level interview loop.
+
+* 4. Fast & Slow Pointers: For cycle detection in linked lists or arrays.
+* 5. Merge Intervals: For dealing with overlapping times, ranges, or schedules.
+* 6. Cyclic Sort: For arrays containing numbers in a given range (e.g., 1 to n) where you need to find duplicates or missing numbers.
+* 7. In-place Reversal of a Linked List: For modifying node chains without extra memory.
+* 8. Tree Breadth-First Search (BFS): Level-by-level tree traversal.
+* 9. Tree Depth-First Search (DFS): Path-by-path deep tree exploration.
+* 10. Matrix Depth-First Search / Breadth-First Search: For grid traversal (islands, mazes, flood fill).
+
+## 🧠 Advanced Optimization & Graphs (Found in ~15% of problems)
+These handle complex data relationships and performance optimization.
+
+* 11. Subsets: For generating all permutations, combinations, or mathematical subsets (Backtracking).
+* 12. Modified Binary Search: For searching sorted or partially rotated datasets in $O(\log n)$ time.
+* 13. Top 'K' Elements: For finding the largest, smallest, or most frequent items using Heaps.
+* 14. K-way Merge: For merging multiple sorted arrays or lists into one.
+* 15. Topological Sort: For linear ordering of items with dependencies (e.g., course prerequisites).
+* 16. Multi-threaded / Concurrency: Specifically for system-level or language-specific parallel processing.
+
+## 🛡️ Niche & "Hard" Patterns (Found in ~5% of problems)
+These usually appear in "Hard" rated problems or specific algorithmic rounds.
+
+* 17. Trie (Prefix Tree): For highly efficient string and prefix lookups.
+* 18. Union-Find (Disjoint Set Union): For checking network connectivity or grouping dynamic elements.
+* 19. Dynamic Programming (DP): Caching subproblems to find maximum/minimum values or total paths.
+* 20. Island Pattern: A specialized variation of matrix DFS/BFS focused on connected components.
+* 21. Monotonic Stack/Queue: For finding the "next greater" or "next smaller" element in linear time.
+* 22. Bit Manipulation: For low-level binary calculations.
+* 23. Greedy Algorithms: For making locally optimal choices at each isolated step.
+* 24. Segment Trees / Fenwick Trees: For highly specialized dynamic range queries.
+
+------------------------------
+## Where should you start?
+Trying to learn all 24 at once will cause burnout. Start with Patterns 1, 2, and 12 (Sliding Window, Two Pointers, and Modified Binary Search). They are the easiest to visualize and immediately open up over 200+ LeetCode problems.
+Which language (Python, Java, C++, JavaScript) are you planning to use? Let me know, and I can give you the exact code starter-template for the Sliding Window pattern!
+

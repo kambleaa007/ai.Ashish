@@ -1,7 +1,7 @@
 # Gate Smashers Complete System Design Curriculum - Comprehensive Lecture-by-Lecture Technical Summary
 
 <audio controls>
-  <source src="Architecture_for_50_million_concurrent_users.m4a" type="audio/mp4">
+  <source src="audio/Architecture_for_50_million_concurrent_users.m4a" type="audio/mp4">
   Your browser does not support the audio element.
 </audio>
 

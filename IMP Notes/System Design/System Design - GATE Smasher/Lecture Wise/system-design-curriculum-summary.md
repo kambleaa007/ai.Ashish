@@ -6,6 +6,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-1: System Design Introduction & Syllabus Discussion
 
+![Architectural Diagram Representation](imgs/Architectural_diagram_representi…_2K_202609072132.jpeg)
+
 * **System Design** is the software engineering discipline of defining the architecture, software modules, data models, interfaces, protocols, and deployment infrastructure of a system to satisfy functional specifications while guaranteeing rigorous non-functional requirements (NFRs)—such as low latency, high availability, massive scalability, partition tolerance, and security boundaries.
 * **Single Points of Failure (SPOF)**: An un-partitioned or un-replicated architecture where a single node, hardware component, or database server crash immediately takes down the entire global service.
 * **Cascading Failures**: Occur when a failure or slow network bottleneck in one service causes upstream thread pools or connection sockets to block, leading to resource exhaustion and eventual collapse across the entire network cluster.
@@ -20,6 +22,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ---
 
 ## 📘 Lec-2: What happens when you open a website/Mobile App? (End-to-End Request Flow)
+
+![Request Packet Flowing to Backend](imgs/Request_packet_flowing_to_backend_2K_202609072133.jpeg)
 
 * **Application RAM Loading**: When a user taps an app (such as Hotstar), the Operating System (OS) loads the application's binary code from flash memory into system **RAM** to execute local layout code and initialize network sockets.
 * **DNS Resolution Pathway**: The client resolves the domain name (e.g., `api.app.com`) to an IP address. The request queries local cache, then traverses the **ISP Recursive Resolver**, the **Root Nameserver**, the **TLD Nameserver**, and finally the **Authoritative Nameserver** to fetch the corresponding IP address.
@@ -36,6 +40,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-3: Load Balancers (Routing Algorithms, L4 vs. L7, Nginx vs. HAProxy)
 
+![Load Balancer Diagram Illustration](imgs/Load_balancer_diagram_illustrati…_2K_202609072132.jpeg)
+
 * **Load Balancer (LB)**: A high-performance reverse proxy that serves as a single entry point for client traffic, distributing incoming requests across a pool of healthy backend servers to prevent resource saturation on any single node.
 * **Thread Pool Exhaustion**: Without a load balancer, a single server node handling peak traffic will saturate its local CPU scheduling threads and RAM buffers, causing the OS kernel's connection queue (`listen()` backlog) to overflow and drop new connection packets.
 * **Edge vs. Internal Placement**: Load Balancers are placed at multiple logical boundaries: **Edge Ingress** (terminating SSL and distributing public traffic), **Internal Mesh** (routing service-to-service gRPC calls), and the **Database Read-Proxy Layer** (distributing queries across SQL replica pools).
@@ -50,6 +56,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ---
 
 ## 📘 Lec-4: Content Delivery Networks (CDNs, Edge Caching, and Latency Optimization)
+
+![Global CDN Network Mapping Assets](imgs/Global_CDN_network_mapping_assets_2K_202609072132.jpeg)
 
 * **Content Delivery Network (CDN)**: A geographically distributed network of proxy servers deployed inside highly connected edge data centers—known as **Points of Presence (PoPs)**—designed to cache and deliver static and dynamic web content closer to users.
 * **Latency Reduction Mathematics**: Physical fiber-optic signals are limited by the speed of light. A round-trip query from Tokyo to a centralized server in Virginia takes ~150-200ms. Routing to a local CDN edge PoP reduces round-trip times to **5-20ms**.
@@ -66,6 +74,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-5: Forward Proxy vs. Reverse Proxy | System Design
 
+![Forward versus Reverse Proxy Comparison](imgs/Forward_versus_reverse_proxy_com…_2K_202609072133.jpeg)
+
 * **Forward Proxy**: An intermediary node positioned between a **group of private clients and the public internet**. It intercepts all outbound client requests, processes egress rules, and forwards requests to the internet on behalf of those clients.
 * **Egress Anonymity & Masquerading**: The forward proxy replaces the client's internal private source IP address with its own public IP in packet headers, shielding the client's internal network topology from external web servers.
 * **Egress Access Controls**: Used by corporate networks to enforce security filters, logging all egress traffic and blocking requests to specific external domains (e.g., disabling social media or malicious IP ranges).
@@ -78,6 +88,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ---
 
 ## 📘 Lec-6: SSL Certificates & TLS Handshaking (Encryption in Transit)
+
+![SSL TLS Handshake Diagram](imgs/SSL_TLS_handshake_diagram_2K_202609072133.jpeg)
 
 * **SSL/TLS Certificate**: A digital file containing a public key, domain ownership details, and a cryptographic signature from a trusted **Certificate Authority (CA)** (e.g., DigiCert, Let's Encrypt), mathematically binding a domain name to a verified identity.
 * **Plaintext Packet Sniffing**: Without SSL/TLS, data (including passwords, session cookies, and financial payloads) is transmitted in cleartext, leaving it highly vulnerable to packet sniffing (Wireshark) and **Man-in-the-Middle (MitM)** tampering.
@@ -94,6 +106,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-7: Caching in System Design (Cache Eviction Policies & Redis vs. Memcached)
 
+![Caching Shielding Database Illustration](imgs/Caching_shielding_database_illus…_2K_202609072133.jpeg)
+
 * **Caching**: The practice of storing copies of frequently or recently accessed data in an ultra-fast, temporary, in-memory storage layer (RAM) to bypass slow, disk-bound, or computationally expensive downstream database operations.
 * **RAM vs. Disk Latency**: Disk-bound database seeks take milliseconds ($10^{-3}$s). In-memory caching lookups (RAM) resolve in **microseconds ($10^{-6}$s) or nanoseconds ($10^{-9}$s)**, providing a million-fold latency reduction.
 * **Volatile Nature**: RAM is temporary storage. If power fails or the cache server reboots, cached data is lost. Therefore, cache layers must be treated as volatile speed boosters, backed by durable disk storage.
@@ -109,6 +123,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-8: Full Stack Request Flow Explained (DNS, CDN, Load Balancers, API Gateways Combined)
 
+![Full Stack Request Flow Blueprint](imgs/Full_Stack_Request_Flow_Blueprint_2K_202609072133.jpeg)
+
 * **Integrated Latency Protection**: Combining multiple systems ensures that if a DNS lookup is cached, CDN edge nodes handle 80% of reads, API Gateways block malicious scripts, and Redis caches warm up, the database remains completely insulated from high-concurrency loads.
 * **Step 1: Domain Resolution**: The user enters a URL. The browser queries the local OS cache and recursive DNS resolvers to resolve the domain to an Anycast CDN IP.
 * **Step 2: CDN Edge Hit/Miss**: The client establishes a secure socket connection with the nearest CDN edge PoP. If the request is for static assets (e.g., images), the CDN serves them directly (Cache Hit) in 5-20ms.
@@ -123,6 +139,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-9: What are APIs & API Gateways
 
+![API Gateway Architecture Routing](imgs/API_Gateway_architecture_routing…_2K_202609072133.jpeg)
+
 * **Application Programming Interface (API)**: A formal software contract defining the exact endpoints, request formats, data schemas, and expected responses, enabling independent applications to interact programmatically over a network.
 * **API Gateway**: A reverse proxy positioned at the entry boundary of a microservices private network. It acts as a single point of entry, intercepting all client calls and routing them to internal backend services.
 * **API Exposure Vulnerabilities**: Without an API Gateway, every microservice must expose public IP addresses, configure public SSL certificates individually, and implement duplicated security, rate-limiting, and validation code.
@@ -136,6 +154,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ---
 
 ## 📘 Lec-10 & Lec-26: API Paradigms & Protocols (REST, SOAP, GraphQL, gRPC, & WebSockets)
+
+![Comparing API Paradigms REST GraphQL gRPC](imgs/Comparing_API_paradigms_REST_Gra…_2K_202609072134.jpeg)
 
 * **REST (Representational State Transfer)**: An architectural style designed around **resources** identified by URIs. It enforces a stateless client-server model and uses standard HTTP verbs (GET, POST, PUT, DELETE) and status codes (e.g., 200 OK, 404 Not Found) with JSON/XML payloads.
 * **REST Trade-offs**: Simple to implement, universally compatible, and works well with browser-side caching. However, it can suffer from **Over-fetching** (retrieving unused fields) and **Under-fetching** (requiring multiple roundtrips to retrieve nested data, leading to N+1 query bottlenecks).
@@ -152,6 +172,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-11: Database Partitioning (Logical & Physical Local Splitting)
 
+![Database Partitioning Diagram](imgs/Database_partitioning_diagram_2K_202609072134.jpeg)
+
 * **Database Partitioning**: The process of decomposing a large database table or index into smaller, more manageable physical subsets (partitions) **within a single database engine instance**. The table remains a single logical entity to the application, but the storage engine manages the data across separate physical disk blocks.
 * **B-Tree Index Bloat**: As a single relational table grows to millions of rows, its B-Tree index depth increases. This forces the storage engine to perform more random disk-seek operations per query, degrading search speeds from $O(\log N)$ toward linear speeds as indexes overflow RAM.
 * **Partition Key Selection**: The system architect designates a specific column (e.g., `created_at` or `country_code`) as the **Partition Key** to define partition boundaries on disk.
@@ -165,6 +187,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ---
 
 ## 📘 Lec-12: Database Sharding (Distributed Horizontal Scaling)
+
+![Database Sharding Visualization](imgs/Database_sharding_visualization_2K_202609072133.jpeg)
 
 * **Database Sharding**: A database architecture pattern where a single logical dataset is horizontally partitioned and distributed across **multiple physically separate, autonomous database server nodes (shards)**. Each shard is a standalone database server hosting a subset of the overall data.
 * **Write Throughput Limits**: A single SQL database node can only write as fast as its local disk IOPS and memory lock limits permit. Sharding multiplies write throughput by spreading write traffic across multiple independent server disks.
@@ -180,6 +204,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-13: CAP Theorem (Distributed Systems Trade-offs)
 
+![CAP Theorem Triangle Visual Explanation](imgs/CAP_Theorem_triangle_visual_expl…_2K_202609072133.jpeg)
+
 * **Consistency (Strong Consistency)**: Every read request receives the most recent write or an error. All nodes in the cluster return the exact same data state at the same time, giving clients the illusion of a single-node database.
 * **Availability**: Every non-failing node returns a non-error response to every request (without a guarantee that it contains the most recent write). No request is blocked or rejected.
 * **Partition Tolerance**: The system continues to operate despite an arbitrary number of messages being dropped or delayed by the network between nodes.
@@ -193,6 +219,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ---
 
 ## 📘 Lec-14: Message Queue Systems (Asynchronous & Decoupled Architecture)
+
+![Message Queue System Diagram](imgs/Message_queue_system_diagram_2K_202609072133.jpeg)
 
 * **Temporal Decoupling**: Message queues remove the requirement for producers (request senders) and consumers (request processors) to be online, connected, or processing synchronously at the same time.
 * **Asynchronous Middlewares**: High-performance message brokers (such as **Apache Kafka**, **RabbitMQ**, or **AWS SQS**) sit between microservices to route, serialize, buffer, and persist transactional payloads.
@@ -208,6 +236,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-15: Scaling Strategies (Vertical vs. Horizontal Scaling)
 
+![Comparing Vertical and Horizontal Scaling](imgs/Comparing_vertical_and_horizonta…_2K_202609072134.jpeg)
+
 * **Scaling**: The architectural capability of a system to adjust its hardware capacity (compute power, memory throughput, network bandwidth) to maintain performance as transaction volume scales.
 * **Vertical Scaling (Scaling Up)**: Upgrading the hardware of a **single physical or virtual server instance** by adding more CPU cores, RAM, or faster SSD storage.
 * **Horizontal Scaling (Scaling Out)**: Adding **more independent server instances** to a cluster, distributing client workloads across them using an ingress load balancer.
@@ -221,6 +251,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ---
 
 ## 📘 Lec-16 & Lec-31: Monolithic vs. Microservices Architecture
+
+![Monolithic versus Microservices Architecture](imgs/Monolithic_versus_microservices_…_2K_202609072133.jpeg)
 
 * **Monolithic Architecture**: An architectural pattern where all software modules, business domains, and deployment packages are compiled and executed together as a **single unified process**, sharing a centralized relational database.
 * **Microservices Architecture**: An architectural style that decomposes an application into a suite of small, autonomous, loosely-coupled services. Each service represents a specific business domain, runs in its own process, manages its own private database (**Database-per-Service**), and communicates via lightweight protocols (gRPC, REST, or message brokers).
@@ -236,6 +268,10 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-17: Write-Through vs. Write-Back Caching Policies
 
+![Caching Policies Write Through Back](imgs/Caching_policies_write_through_back_2K_202609072136.jpeg)
+
+![Comparing Caching Policies](imgs/Comparing_caching_policies_2K_202609072136.jpeg)
+
 * **Write-Through Caching**: A synchronous write policy where data is written to both the high-speed Cache layer and the underlying database simultaneously before the transaction returns a "success" confirmation to the calling application.
 * **Write-Through Advantages**: Ensures **strong data consistency** between the cache and the database. If the cache reboots immediately after a write, the database is guaranteed to have the update, eliminating stale reads.
 * **Write-Through Latency Cost**: Writes are slow because they are bounded by the random-write speed of the underlying disk storage system. This policy is highly susceptible to write bottlenecks under heavy transaction spikes.
@@ -248,6 +284,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-18: NoSQL Document Databases (JSON Storage & Dynamic Schemas)
 
+![NoSQL Document Database Concept](imgs/NoSQL_document_database_concept_…_2K_202609072134.jpeg)
+
 * **Relational Schema Inflexibility**: When storing objects with highly variable properties (such as an e-commerce catalog containing both smart TVs with resolutions and sports shoes with sizes), SQL tables require either hundreds of wasteful **NULL-filled columns** or complex, slow entity-attribute-value (EAV) designs.
 * **Document Databases (e.g., MongoDB, CouchDB)**: Stores data in flexible, schema-less **documents** (typically JSON or binary BSON formats). This allows each record to have a completely different set of key-value attributes.
 * **Denormalization (Self-Containment)**: Related data is nested directly inside a single document (e.g., embedding shipping addresses inside the parent user document), completely eliminating the need for relational joins.
@@ -259,6 +297,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ---
 
 ## 📘 Lec-19: NoSQL Key-Value Databases (RAM-First Storage & Session Caching)
+
+![NoSQL Key Value Database Performance](imgs/NoSQL_key-value_database_perform…_2K_202609072134.jpeg)
 
 * **Key-Value Database (e.g., Redis, Memcached)**: The simplest type of NoSQL database, storing data as an associative array where a unique, indexable **Key** is mapped directly to an arbitrary **Value** block (strings, hashes, lists).
 * **Hash Table $O(1)$ Performance**: Key-Value databases allocate an in-memory Hash Table index. The query engine hashes the key string, maps it directly to a memory offset address, and retrieves the value block in constant time, achieving **$O(1)$ time complexity**.
@@ -274,6 +314,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-20: Column-Family Databases (Cassandra, HBase)
 
+![Column Family Database Architecture](imgs/Column_family_database_architect…_2K_202609072134.jpeg)
+
 * **Column-Family Database**: A distributed, distributed NoSQL database that stores data in columns grouped into family structures rather than rows. Contiguous data on disk is organized by column rather than by row.
 * **Relational Row-Store Limitation**: Relational databases write rows sequentially. If you run an analytical query (e.g., `SELECT AVG(salary) FROM employees`), the engine must load every column of every row into RAM, wasting I/O on unused columns.
 * **Analytical Query Optimization**: Column-Family databases write column values contiguously on disk. Querying a single attribute loads only that specific column family's blocks into RAM, bypassing other columns and maximizing analytical read throughput.
@@ -286,6 +328,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-21: Graph Databases (Neo4j, Amazon Neptune)
 
+![Graph Database Entity Relationships](imgs/Graph_Database_Entity_Relationsh…_2K_202609072134.jpeg)
+
 * **Graph Database**: A specialized NoSQL database that represents, stores, and queries data using **Nodes** (vertices representing entities), **Edges** (directed, labeled relationships), and **Properties** (key-value metadata attached to nodes or edges).
 * **The Junction Table Bottleneck**: In SQL, modeling complex, many-to-many relationships (e.g., social networks, user followers, product recommendations) requires heavy junction tables and nested, recursive `JOIN` operations that degrade database performance.
 * **Index-Free Adjacency**: Each node in a graph database stores **direct physical memory pointers** to its adjacent neighbor nodes.
@@ -297,6 +341,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ---
 
 ## 📘 Lec-22: ACID vs. BASE in System Design
+
+![Comparing ACID and BASE Consistency](imgs/Comparing_ACID_and_BASE_consiste…_2K_202609072134.jpeg)
 
 * **ACID Consistency Model**: A strict database transactional model prioritizing immediate correctness and mathematical integrity across all nodes, standard in relational engines (SQL).
 * **ACID Properties**:
@@ -315,6 +361,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-23: SQL vs. NoSQL Databases
 
+![SQL versus NoSQL Database Comparison](imgs/SQL_versus_NoSQL_database_compar…_2K_202609072134.jpeg)
+
 * **SQL (Relational Databases - e.g., MySQL, PostgreSQL, Oracle)**: Store data in rigid, tabular rows and columns with fixed schemas, strong relational integrity constraints, and built-in support for complex ad-hoc queries with table joins.
 * **NoSQL (Non-Relational Databases - e.g., MongoDB, Redis, Cassandra, Neo4j)**: Store data in flexible, schema-less formats. They prioritize horizontal scale-out and high-speed writes over immediately consistent relationships.
 * **Storage Engines (B-Tree vs. LSM-Tree)**:
@@ -328,6 +376,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 
 ## 📘 Lec-24: Database Replication vs. Sharding
 
+![Database Replication versus Sharding](imgs/Database_replication_versus_shar…_2K_202609072135.jpeg)
+
 * **Database Replication**: The process of copying the complete database dataset across multiple active or passive server nodes (Master-Slave / Primary-Replica topology).
 * **Disaster Recovery & High Availability**: Replication ensures that if the primary master database crashes, one of the passive read replicas can be elected to master within milliseconds, preventing platform outages.
 * **Read-Scale Optimization**: Distributes high-concurrency read queries across multiple read replicas. This is highly effective for read-heavy workloads (such as browsing movie catalogs on Netflix), keeping the primary master node free to process writes.
@@ -340,6 +390,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ---
 
 ## 📘 Lec-25: Consistent Hashing
+
+![Consistent Hashing Hash Ring Mapping](imgs/Consistent_Hashing_Hash_Ring_Map…_2K_202609072135.jpeg)
 
 * **Consistent Hashing**: A distributed hashing paradigm that maps both database server nodes and client data keys onto a continuous, circular **logical hash ring**.
 * **Traditional Hashing Bottleneck**: Naive sharding maps keys to servers using the modulo operator: $Hash(Key) % N$. If a server crashes or a new node is added (changing $N$), almost every single database key hashes to a different server number. This invalidates up to **99% of system caches**, triggering a thundering herd on primary databases.
@@ -428,6 +480,8 @@ Below is an exhaustive, highly structured, in-depth bullet-point summary of **ea
 ## 📘 Lec-33: Case Study: Instagram Feed Generation & Media Scaling
 
 ![Instagram Feed Generation Architecture](imgs/Instagram_feed_generation_archit…_2K_202609072136.jpeg)
+
+![Instagram Feed Architecture Tech](imgs/Instagram_feed_architecture_tech…_2K_202609072136.jpeg)
 
 * **High-Write Social Media Scale**: Instagram handles massive media uploads and dynamic feed compilation for billions of users. Direct SQL joins on user follower tables during feed generation would cause database systems to fail under heavy read volume.
 * **Decoupled Media Upload Path**: The client uploads a photo directly to an edge reverse proxy, which routes the binary file directly to **Object Storage (S3)**. This upload triggers background workers to transcode the video or compress the photo into multiple resolutions.

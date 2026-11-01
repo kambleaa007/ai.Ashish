@@ -1,0 +1,19 @@
+the quick brown fox jumps over the lazy dog
+the quick brown fox jumps over the lazy dog
+the quick brown fox jumps over the lazy dog
+hello world hello world hello world
+hello world hello world hello world
+transformer attention is all you need
+transformer attention is all you need
+pytorch tensors and autograd make deep learning possible
+pytorch tensors and autograd make deep learning possible
+fine tuning adapts a pretrained model to new tasks
+fine tuning adapts a pretrained model to new tasks
+qwen and gemma are large language models
+qwen and gemma are large language models
+rotary positional embeddings help models understand order
+rotary positional embeddings help models understand order
+grouped query attention reduces kv cache memory
+grouped query attention reduces kv cache memory
+swiglu activation improves feed forward networks
+swiglu activation improves feed forward networks

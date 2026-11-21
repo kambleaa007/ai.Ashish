@@ -13,7 +13,7 @@ pip install -q \
     peft==0.13.0 \
     trl==0.9.6 \
     accelerate==0.33.0 \
-    bitsandbytes==0.45.0 \
+    bitsandbytes==0.46.1 \
     huggingface_hub==0.24.0
 
 echo "=== Checking GPU ==="

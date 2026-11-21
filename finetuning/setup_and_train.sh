@@ -7,14 +7,14 @@ set -e
 echo "=== Setting up environment ==="
 # Install dependencies with specific versions for compatibility
 pip install -q \
-    torch==2.3.0 \
-    transformers==4.41.0 \
-    datasets==2.19.0 \
-    peft==0.11.0 \
-    trl==0.8.6 \
-    accelerate==0.30.0 \
-    bitsandbytes==0.43.0 \
-    huggingface_hub==0.22.0
+    torch==2.5.1 \
+    transformers==4.44.0 \
+    datasets==2.21.0 \
+    peft==0.13.0 \
+    trl==0.9.6 \
+    accelerate==0.33.0 \
+    bitsandbytes==0.45.0 \
+    huggingface_hub==0.24.0
 
 echo "=== Checking GPU ==="
 nvidia-smi

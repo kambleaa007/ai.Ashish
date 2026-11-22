@@ -6,7 +6,7 @@ set -e
 
 echo "=== Setting up environment ==="
 # Install dependencies with specific versions for compatibility
-pip install -q \
+pip install -q --upgrade \
     torch==2.5.1 \
     transformers==4.44.0 \
     datasets==2.21.0 \
@@ -15,6 +15,9 @@ pip install -q \
     accelerate==0.33.0 \
     bitsandbytes==0.46.1 \
     huggingface_hub==0.24.0
+
+# Verify
+python -c "import bitsandbytes as bnb; print(f'bitsandbytes version: {bnb.__version__}')"
 
 echo "=== Checking GPU ==="
 nvidia-smi
